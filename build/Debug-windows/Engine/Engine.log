@@ -1,0 +1,5 @@
+﻿  application.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
+C:\3rd Year\Development Project\individual-coursework-2022-ReconCS4-b54f07c2923ce66c47dc9eb6c94d42b535e8eae8\vendor\Glad\include\glad\glad.h(32): message : see previous definition of 'APIENTRY'
+C:\3rd Year\Development Project\individual-coursework-2022-ReconCS4-b54f07c2923ce66c47dc9eb6c94d42b535e8eae8\engine\enginecode\include\platform\GLFW\GLFWsystems.h(18,1): warning C4551: function call missing argument list
+  Engine.vcxproj -> C:\3rd Year\Development Project\individual-coursework-2022-ReconCS4-b54f07c2923ce66c47dc9eb6c94d42b535e8eae8\engine\..\bin\Debug-windows\Engine\Engine.lib
