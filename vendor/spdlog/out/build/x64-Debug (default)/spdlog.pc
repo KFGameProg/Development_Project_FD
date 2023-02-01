@@ -1,0 +1,6 @@
+prefix=C:/3rd Year/Game Engine Architecture/Assessment/vendor/spdlog/out/install/x64-Debug (default)
+includedir=${prefix}/include
+
+Name: spdlog
+Description: Super fast C++ logging library. 
+Version: 0.17.0

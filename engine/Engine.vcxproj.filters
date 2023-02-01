@@ -13,8 +13,20 @@
     <Filter Include="enginecode\include\independent\core">
       <UniqueIdentifier>{FEFEDCCB-6AB8-4776-F317-62505FD0FDE5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="enginecode\include\independent\events">
+      <UniqueIdentifier>{0AC83A3C-768C-392C-3FF2-69F6AB75D561}</UniqueIdentifier>
+    </Filter>
     <Filter Include="enginecode\include\independent\systems">
       <UniqueIdentifier>{EDF64201-D948-1AF1-C267-5701AE5833DA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="enginecode\include\platform">
+      <UniqueIdentifier>{7D5C3B44-E969-692A-7250-6515DE5C35E1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="enginecode\include\platform\GLFW">
+      <UniqueIdentifier>{DC6DC4E2-C8BE-AF24-F122-9EE6DDD2428E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="enginecode\include\platform\window">
+      <UniqueIdentifier>{E4EEB117-D02A-B581-393D-CD7825985D9C}</UniqueIdentifier>
     </Filter>
     <Filter Include="enginecode\src">
       <UniqueIdentifier>{8D999F4C-7967-9352-62FB-03794E686FB7}</UniqueIdentifier>
@@ -22,74 +34,120 @@
     <Filter Include="enginecode\src\independent">
       <UniqueIdentifier>{6A040C7B-5614-B84B-BFCD-1C6AABFCA6E4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="enginecode\src\independent\core">
+      <UniqueIdentifier>{2207FC91-8EEA-0AD2-97ED-380E0350D122}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="enginecode\src\independent\system">
+      <UniqueIdentifier>{5EB02227-CA1E-78A6-1308-33A67FB56D42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="enginecode\src\platform">
+      <UniqueIdentifier>{A180F69D-0DB8-3E35-16C2-A2588278652E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="enginecode\src\platform\GLFW">
+      <UniqueIdentifier>{80C80FD7-6C83-FF82-153B-78CD01D54913}</UniqueIdentifier>
+    </Filter>
     <Filter Include="precompiled">
       <UniqueIdentifier>{B96624CA-251C-9DBF-AE10-97961AC593C3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="enginecode\src\independent\core">
-      <UniqueIdentifier>{4fca1261-468b-49e5-9dbe-b1bf0bc4cbe1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="enginecode\include\platform">
-      <UniqueIdentifier>{7abda1d4-920a-4e9e-92a6-9af3f7436911}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="enginecode\include\independent\events">
-      <UniqueIdentifier>{506daadf-ed42-4676-bcf0-cfea43a060cf}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="enginecode\include\platform\GLFW">
-      <UniqueIdentifier>{08217b82-5160-4d19-a934-83195b771537}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="enginecode\include\platform\OpenGL">
-      <UniqueIdentifier>{a36f71c9-3815-4eb6-9ab4-b88ac6b8db45}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="enginecode\include\platform\window">
-      <UniqueIdentifier>{abe347d7-3e0e-4a1d-b8e2-5b0ea1482bba}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="enginecode\engine.h">
+      <Filter>enginecode</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\independent\core\GC.h">
+      <Filter>enginecode\include\independent\core</Filter>
+    </ClInclude>
     <ClInclude Include="enginecode\include\independent\core\application.h">
       <Filter>enginecode\include\independent\core</Filter>
     </ClInclude>
     <ClInclude Include="enginecode\include\independent\core\entryPoint.h">
       <Filter>enginecode\include\independent\core</Filter>
     </ClInclude>
+    <ClInclude Include="enginecode\include\independent\core\log.h">
+      <Filter>enginecode\include\independent\core</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\independent\core\timer.h">
+      <Filter>enginecode\include\independent\core</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\independent\events\codes.h">
+      <Filter>enginecode\include\independent\events</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\independent\events\event.h">
+      <Filter>enginecode\include\independent\events</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\independent\events\eventCases.h">
+      <Filter>enginecode\include\independent\events</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\independent\events\eventHandler.h">
+      <Filter>enginecode\include\independent\events</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\independent\events\keyEvent.h">
+      <Filter>enginecode\include\independent\events</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\independent\events\mouseEvent.h">
+      <Filter>enginecode\include\independent\events</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\independent\events\windowsEvent.h">
+      <Filter>enginecode\include\independent\events</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\independent\systems\inputPoller.h">
+      <Filter>enginecode\include\independent\systems</Filter>
+    </ClInclude>
     <ClInclude Include="enginecode\include\independent\systems\system.h">
       <Filter>enginecode\include\independent\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\platform\GLFW\GLFWCodes.h">
+      <Filter>enginecode\include\platform\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\platform\GLFW\GLFWInputPoller.h">
+      <Filter>enginecode\include\platform\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\platform\GLFW\GLFW_OpenGL_GC.h">
+      <Filter>enginecode\include\platform\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\platform\GLFW\GLFWgraphics.h">
+      <Filter>enginecode\include\platform\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\platform\GLFW\GLFWsystems.h">
+      <Filter>enginecode\include\platform\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\platform\GLFW\GLFWwindow.h">
+      <Filter>enginecode\include\platform\GLFW</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\platform\window\window.h">
+      <Filter>enginecode\include\platform\window</Filter>
     </ClInclude>
     <ClInclude Include="precompiled\engine_pch.h">
       <Filter>precompiled</Filter>
     </ClInclude>
-    <ClInclude Include="enginecode\engine.h">
-      <Filter>enginecode\src\independent\core</Filter>
-    </ClInclude>
-    <ClInclude Include="enginecode\include\independent\core\GC.h" />
-    <ClInclude Include="enginecode\include\independent\core\log.h" />
-    <ClInclude Include="enginecode\include\independent\core\timer.h" />
-    <ClInclude Include="enginecode\include\independent\events\codes.h" />
-    <ClInclude Include="enginecode\include\independent\events\event.h" />
-    <ClInclude Include="enginecode\include\independent\events\eventCases.h" />
-    <ClInclude Include="enginecode\include\independent\events\eventHandler.h" />
-    <ClInclude Include="enginecode\include\independent\events\keyEvent.h" />
-    <ClInclude Include="enginecode\include\independent\events\mouseEvent.h" />
-    <ClInclude Include="enginecode\include\independent\events\windowsEvent.h" />
-    <ClInclude Include="enginecode\include\platform\GLFW\GLFW_OpenGL_GC.h" />
-    <ClInclude Include="enginecode\include\platform\GLFW\GLFWCodes.h" />
-    <ClInclude Include="enginecode\include\platform\GLFW\GLFWInputPoller.h" />
-    <ClInclude Include="enginecode\include\platform\GLFW\GLFWsystems.h" />
-    <ClInclude Include="enginecode\include\platform\GLFW\GLFWwindow.h" />
-    <ClInclude Include="enginecode\include\platform\window\window.h" />
-    <ClInclude Include="enginecode\include\platform\GLFW\GLFWgraphics.h" />
-    <ClInclude Include="enginecode\include\independent\systems\inputPoller.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="enginecode\src\independent\core\application.cpp">
+      <Filter>enginecode\src\independent\core</Filter>
+    </ClCompile>
+    <ClCompile Include="enginecode\src\independent\core\log.cpp">
+      <Filter>enginecode\src\independent\core</Filter>
+    </ClCompile>
+    <ClCompile Include="enginecode\src\independent\core\timer.cpp">
+      <Filter>enginecode\src\independent\core</Filter>
+    </ClCompile>
+    <ClCompile Include="enginecode\src\independent\system\inputPoller.cpp">
+      <Filter>enginecode\src\independent\system</Filter>
+    </ClCompile>
+    <ClCompile Include="enginecode\src\platform\GLFW\GLFWInputPoller.cpp">
+      <Filter>enginecode\src\platform\GLFW</Filter>
+    </ClCompile>
+    <ClCompile Include="enginecode\src\platform\GLFW\GLFW_OpenGL_GC.cpp">
+      <Filter>enginecode\src\platform\GLFW</Filter>
+    </ClCompile>
+    <ClCompile Include="enginecode\src\platform\GLFW\GLFWgraphics.cpp">
+      <Filter>enginecode\src\platform\GLFW</Filter>
+    </ClCompile>
+    <ClCompile Include="enginecode\src\platform\GLFW\GLFWwindow.cpp">
+      <Filter>enginecode\src\platform\GLFW</Filter>
+    </ClCompile>
     <ClCompile Include="precompiled\engine_pch.cpp">
       <Filter>precompiled</Filter>
     </ClCompile>
-    <ClCompile Include="enginecode\src\independent\core\application.cpp" />
-    <ClCompile Include="enginecode\src\platform\GLFW\GLFW_OpenGL_GC.cpp" />
-    <ClCompile Include="enginecode\src\platform\GLFW\GLFWgraphics.cpp" />
-    <ClCompile Include="enginecode\src\platform\GLFW\GLFWInputPoller.cpp" />
-    <ClCompile Include="enginecode\src\platform\GLFW\GLFWwindow.cpp" />
-    <ClCompile Include="enginecode\src\independent\core\log.cpp" />
-    <ClCompile Include="enginecode\src\independent\core\timer.cpp" />
-    <ClCompile Include="enginecode\src\independent\system\inputPoller.cpp" />
   </ItemGroup>
 </Project>

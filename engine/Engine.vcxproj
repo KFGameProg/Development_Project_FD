@@ -92,9 +92,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="enginecode\engine.h" />
+    <ClInclude Include="enginecode\include\independent\core\GC.h" />
     <ClInclude Include="enginecode\include\independent\core\application.h" />
     <ClInclude Include="enginecode\include\independent\core\entryPoint.h" />
-    <ClInclude Include="enginecode\include\independent\core\GC.h" />
     <ClInclude Include="enginecode\include\independent\core\log.h" />
     <ClInclude Include="enginecode\include\independent\core\timer.h" />
     <ClInclude Include="enginecode\include\independent\events\codes.h" />
@@ -107,11 +107,11 @@
     <ClInclude Include="enginecode\include\independent\systems\inputPoller.h" />
     <ClInclude Include="enginecode\include\independent\systems\system.h" />
     <ClInclude Include="enginecode\include\platform\GLFW\GLFWCodes.h" />
-    <ClInclude Include="enginecode\include\platform\GLFW\GLFWgraphics.h" />
     <ClInclude Include="enginecode\include\platform\GLFW\GLFWInputPoller.h" />
+    <ClInclude Include="enginecode\include\platform\GLFW\GLFW_OpenGL_GC.h" />
+    <ClInclude Include="enginecode\include\platform\GLFW\GLFWgraphics.h" />
     <ClInclude Include="enginecode\include\platform\GLFW\GLFWsystems.h" />
     <ClInclude Include="enginecode\include\platform\GLFW\GLFWwindow.h" />
-    <ClInclude Include="enginecode\include\platform\GLFW\GLFW_OpenGL_GC.h" />
     <ClInclude Include="enginecode\include\platform\window\window.h" />
     <ClInclude Include="precompiled\engine_pch.h" />
   </ItemGroup>
@@ -120,10 +120,10 @@
     <ClCompile Include="enginecode\src\independent\core\log.cpp" />
     <ClCompile Include="enginecode\src\independent\core\timer.cpp" />
     <ClCompile Include="enginecode\src\independent\system\inputPoller.cpp" />
-    <ClCompile Include="enginecode\src\platform\GLFW\GLFWgraphics.cpp" />
     <ClCompile Include="enginecode\src\platform\GLFW\GLFWInputPoller.cpp" />
-    <ClCompile Include="enginecode\src\platform\GLFW\GLFWwindow.cpp" />
     <ClCompile Include="enginecode\src\platform\GLFW\GLFW_OpenGL_GC.cpp" />
+    <ClCompile Include="enginecode\src\platform\GLFW\GLFWgraphics.cpp" />
+    <ClCompile Include="enginecode\src\platform\GLFW\GLFWwindow.cpp" />
     <ClCompile Include="precompiled\engine_pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
