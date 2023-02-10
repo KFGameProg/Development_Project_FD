@@ -104,6 +104,15 @@
     <ClInclude Include="enginecode\include\independent\events\keyEvent.h" />
     <ClInclude Include="enginecode\include\independent\events\mouseEvent.h" />
     <ClInclude Include="enginecode\include\independent\events\windowsEvent.h" />
+    <ClInclude Include="enginecode\include\independent\rendering\agnosticIndexBuffer.h" />
+    <ClInclude Include="enginecode\include\independent\rendering\bufferLayout.h" />
+    <ClInclude Include="enginecode\include\independent\rendering\objects\cube.h" />
+    <ClInclude Include="enginecode\include\independent\rendering\objects\pyramid.h" />
+    <ClInclude Include="enginecode\include\independent\rendering\renderAPI.h" />
+    <ClInclude Include="enginecode\include\independent\rendering\renderer2D.h" />
+    <ClInclude Include="enginecode\include\independent\rendering\renderer3D.h" />
+    <ClInclude Include="enginecode\include\independent\rendering\rendererCommon.h" />
+    <ClInclude Include="enginecode\include\independent\rendering\shaderDataType.h" />
     <ClInclude Include="enginecode\include\independent\systems\inputPoller.h" />
     <ClInclude Include="enginecode\include\independent\systems\system.h" />
     <ClInclude Include="enginecode\include\platform\GLFW\GLFWCodes.h" />
@@ -112,6 +121,11 @@
     <ClInclude Include="enginecode\include\platform\GLFW\GLFWgraphics.h" />
     <ClInclude Include="enginecode\include\platform\GLFW\GLFWsystems.h" />
     <ClInclude Include="enginecode\include\platform\GLFW\GLFWwindow.h" />
+    <ClInclude Include="enginecode\include\platform\OpenGL\OpenGLIndexBuffer.h" />
+    <ClInclude Include="enginecode\include\platform\OpenGL\OpenGLShader.h" />
+    <ClInclude Include="enginecode\include\platform\OpenGL\OpenGLTexture.h" />
+    <ClInclude Include="enginecode\include\platform\OpenGL\OpenGLVertexArray.h" />
+    <ClInclude Include="enginecode\include\platform\OpenGL\OpenGLVertexBuffer.h" />
     <ClInclude Include="enginecode\include\platform\window\window.h" />
     <ClInclude Include="precompiled\engine_pch.h" />
   </ItemGroup>
@@ -119,11 +133,19 @@
     <ClCompile Include="enginecode\src\independent\core\application.cpp" />
     <ClCompile Include="enginecode\src\independent\core\log.cpp" />
     <ClCompile Include="enginecode\src\independent\core\timer.cpp" />
+    <ClCompile Include="enginecode\src\independent\rendering\renderAPI.cpp" />
+    <ClCompile Include="enginecode\src\independent\rendering\renderer2D.cpp" />
+    <ClCompile Include="enginecode\src\independent\rendering\renderer3D.cpp" />
     <ClCompile Include="enginecode\src\independent\system\inputPoller.cpp" />
     <ClCompile Include="enginecode\src\platform\GLFW\GLFWInputPoller.cpp" />
     <ClCompile Include="enginecode\src\platform\GLFW\GLFW_OpenGL_GC.cpp" />
     <ClCompile Include="enginecode\src\platform\GLFW\GLFWgraphics.cpp" />
     <ClCompile Include="enginecode\src\platform\GLFW\GLFWwindow.cpp" />
+    <ClCompile Include="enginecode\src\platform\OpenGL\OpenGLIndexBuffer.cpp" />
+    <ClCompile Include="enginecode\src\platform\OpenGL\OpenGLShader.cpp" />
+    <ClCompile Include="enginecode\src\platform\OpenGL\OpenGLTexture.cpp" />
+    <ClCompile Include="enginecode\src\platform\OpenGL\OpenGLVertexArray.cpp" />
+    <ClCompile Include="enginecode\src\platform\OpenGL\OpenGLVertexBuffer.cpp" />
     <ClCompile Include="precompiled\engine_pch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

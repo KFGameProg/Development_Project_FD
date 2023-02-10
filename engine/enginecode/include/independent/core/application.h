@@ -10,6 +10,8 @@
 #include "independent/systems/inputPoller.h"
 #include "platform/window/window.h"
 #include "platform/GLFW/GLFWCodes.h"
+#include "independent/rendering/objects/cube.h"
+#include "independent/rendering/objects/pyramid.h"
 
 namespace Engine {
 
@@ -33,6 +35,8 @@ namespace Engine {
 		bool m_running = true; //!< Is the application running?
 		int32_t width = 800;
 		int32_t height = 600;
+		Cube o_cube;
+		Pyramid o_pyramid;
 	public:
 		virtual ~Application(); //!< Deconstructor
 		inline static Application& getInstance() { return *s_instance; } //!< Instance getter from singleton pattern
