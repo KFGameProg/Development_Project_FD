@@ -134,6 +134,9 @@
     <ClInclude Include="enginecode\include\platform\OpenGL\OpenGLVertexBuffer.h" />
     <ClInclude Include="enginecode\include\independent\rendering\objects\cube.h" />
     <ClInclude Include="enginecode\include\independent\rendering\objects\pyramid.h" />
+    <ClInclude Include="enginecode\include\independent\systems\properties.h" />
+    <ClInclude Include="enginecode\include\independent\systems\camera\camera.h" />
+    <ClInclude Include="enginecode\include\independent\systems\camera\perspectiveCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="enginecode\src\independent\core\application.cpp">
@@ -171,5 +174,6 @@
     <ClCompile Include="enginecode\src\platform\OpenGL\OpenGLTexture.cpp" />
     <ClCompile Include="enginecode\src\platform\OpenGL\OpenGLVertexArray.cpp" />
     <ClCompile Include="enginecode\src\platform\OpenGL\OpenGLVertexBuffer.cpp" />
+    <ClCompile Include="enginecode\src\independent\system\camera\perspectiveCamera.cpp" />
   </ItemGroup>
 </Project>

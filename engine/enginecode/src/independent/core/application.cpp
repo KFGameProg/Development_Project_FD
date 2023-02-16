@@ -25,6 +25,11 @@ namespace Engine {
 			s_instance = this;
 		}
 		//!< Start Systems
+		m_cam = new PerspectiveCamera();
+		m_cam->attachHandler(m_window, m_handler);
+
+		o_cube = new Cube();
+		o_pyramid = new Pyramid();
 
 		//!< Start Log
 		m_logSystem.reset(new Log);
@@ -103,32 +108,10 @@ namespace Engine {
 	{
 		e.handle(true);
 		Log::info("Key Pressed event: key {0}, repeat {1}", e.getKey(), e.getRepeatCount());
-		if (e.getKey() == NG_KEY_SPACE)			//!< Space Key
-		{
-			width = 800, height = 600;
-			Log::debug("SPACEBAR");
-		}
-
-		if (e.getKey() == NG_KEY_W)				//!< W Key
-		{
-			height += 100;
-			Log::debug("W Pressed");
-		}
-		else if (e.getKey() == NG_KEY_S)		//!< S Key
-		{
-			height -= 100;
-			Log::debug("S Pressed");
-		}
 		
-		if (e.getKey() == NG_KEY_D)				//!< D Key
+		if (e.getKey() == NG_KEY_ESCAPE)
 		{
-			width += 100;
-			Log::debug("D Pressed");
-		}
-		else if (e.getKey() == NG_KEY_A)		//!< A Key
-		{
-			width -= 100;
-			Log::debug("A Pressed");
+			m_running = false;
 		}
 
 		return e.handled();
@@ -138,7 +121,7 @@ namespace Engine {
 	bool Application::onKeyReleased(KeyReleasedEvent& e)
 	{
 		e.handle(true);
-		Log::info("Key Released Event: key {0}, repeat {1}", e.getKey());
+		Log::info("Key Released Event: key {0}", e.getKey());
 		return e.handled();
 	}
 
@@ -219,11 +202,11 @@ namespace Engine {
 
 		glCreateBuffers(1, &cubeVBO);
 		glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
-		glBufferData(GL_ARRAY_BUFFER, o_cube.getVertexSize(), o_cube.getVertices(), GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, o_cube->getVertexSize(), o_cube->getVertices(), GL_STATIC_DRAW);
 
 		glCreateBuffers(1, &cubeIBO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cubeIBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, o_cube.getIndexSize(), o_cube.getIndices(), GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, o_cube->getIndexSize(), o_cube->getIndices(), GL_STATIC_DRAW);
 
 		//(pos 0 (position), 3 floats, not normalized, 8 float between each data line, start at 0)
 		glEnableVertexAttribArray(0);
@@ -267,11 +250,11 @@ namespace Engine {
 
 		glCreateBuffers(1, &pyramidVBO);
 		glBindBuffer(GL_ARRAY_BUFFER, pyramidVBO);
-		glBufferData(GL_ARRAY_BUFFER, o_pyramid.getVertexSize(), o_pyramid.getVertices(), GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, o_pyramid->getVertexSize(), o_pyramid->getVertices(), GL_STATIC_DRAW);
 
 		glCreateBuffers(1, &pyramidIBO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pyramidIBO);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, o_pyramid.getIndexSize(), o_pyramid.getIndices(), GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, o_pyramid->getIndexSize(), o_pyramid->getIndices(), GL_STATIC_DRAW);
 
 		//(pos 0 (position), 3 floats, not normalized, 6 float between each data line, start at 0)
 		glEnableVertexAttribArray(0);
@@ -332,9 +315,11 @@ namespace Engine {
 
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			//**************************OpenGL Draw**********************************
+			m_cam->update(timestep);
+			m_camPos = m_cam->getPosition();
+			m_camFront = m_cam->getFront();
 
-			
+			//**************************OpenGL Draw**********************************
 			glUseProgram(TPShader->getID());
 
 			glBindTexture(GL_TEXTURE_2D, plainWhiteTex->getID());

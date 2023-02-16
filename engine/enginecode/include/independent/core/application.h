@@ -10,6 +10,7 @@
 #include "independent/systems/inputPoller.h"
 #include "platform/window/window.h"
 #include "platform/GLFW/GLFWCodes.h"
+#include "systems/camera/perspectiveCamera.h"
 #include "independent/rendering/objects/cube.h"
 #include "independent/rendering/objects/pyramid.h"
 
@@ -29,14 +30,19 @@ namespace Engine {
 		std::shared_ptr<Timer> m_timer;		//!< Timer
 		std::shared_ptr<GLFWSystem> m_GLFWsys;	//!< GLFW initialise and terminate system
 		std::shared_ptr<Window> m_window;	//!< Window
+		std::shared_ptr<InputPoller> m_handler;
+		PerspectiveCamera* m_cam;
+		Cube* o_cube;
+		Pyramid* o_pyramid;
 
 	private:
 		static Application* s_instance; //!< Singleton instance of the application
 		bool m_running = true; //!< Is the application running?
 		int32_t width = 800;
 		int32_t height = 600;
-		Cube o_cube;
-		Pyramid o_pyramid;
+		glm::vec3 m_camPos;
+		glm::vec3 m_camFront;
+
 	public:
 		virtual ~Application(); //!< Deconstructor
 		inline static Application& getInstance() { return *s_instance; } //!< Instance getter from singleton pattern
