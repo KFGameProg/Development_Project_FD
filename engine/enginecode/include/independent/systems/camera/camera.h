@@ -6,7 +6,7 @@
 #include <iostream>
 
 #include "events/eventHandler.h"
-#include "systems/inputPoller.h"
+#include "systems/inputHandler.h"
 #include "systems/properties.h"
 #include "platform/GLFW/GLFWCodes.h"
 
@@ -41,7 +41,7 @@ namespace Engine {
 
 		// Control
 		virtual void update(float dt) {};
-		virtual void attachHandler(std::shared_ptr<Window> W, std::shared_ptr<InputPoller> H) {};
+		virtual void attachHandler(std::shared_ptr<Window> W, std::shared_ptr<InputHandler> H) {};
 
 	protected:
 		glm::vec3 m_position;

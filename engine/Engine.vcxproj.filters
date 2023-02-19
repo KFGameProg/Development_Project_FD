@@ -16,14 +16,26 @@
     <Filter Include="enginecode\include\independent\events">
       <UniqueIdentifier>{0AC83A3C-768C-392C-3FF2-69F6AB75D561}</UniqueIdentifier>
     </Filter>
+    <Filter Include="enginecode\include\independent\rendering">
+      <UniqueIdentifier>{B33B08CE-9FB8-FB10-C835-FC24B41198A4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="enginecode\include\independent\rendering\objects">
+      <UniqueIdentifier>{8C75FD23-781E-6553-A1B4-80D28DBC7F94}</UniqueIdentifier>
+    </Filter>
     <Filter Include="enginecode\include\independent\systems">
       <UniqueIdentifier>{EDF64201-D948-1AF1-C267-5701AE5833DA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="enginecode\include\independent\systems\camera">
+      <UniqueIdentifier>{E5F27CCE-5163-7F47-1A82-F9CF86B1B748}</UniqueIdentifier>
     </Filter>
     <Filter Include="enginecode\include\platform">
       <UniqueIdentifier>{7D5C3B44-E969-692A-7250-6515DE5C35E1}</UniqueIdentifier>
     </Filter>
     <Filter Include="enginecode\include\platform\GLFW">
       <UniqueIdentifier>{DC6DC4E2-C8BE-AF24-F122-9EE6DDD2428E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="enginecode\include\platform\OpenGL">
+      <UniqueIdentifier>{1177DDBA-FDB2-E024-66C5-F81B5220893F}</UniqueIdentifier>
     </Filter>
     <Filter Include="enginecode\include\platform\window">
       <UniqueIdentifier>{E4EEB117-D02A-B581-393D-CD7825985D9C}</UniqueIdentifier>
@@ -37,14 +49,23 @@
     <Filter Include="enginecode\src\independent\core">
       <UniqueIdentifier>{2207FC91-8EEA-0AD2-97ED-380E0350D122}</UniqueIdentifier>
     </Filter>
+    <Filter Include="enginecode\src\independent\rendering">
+      <UniqueIdentifier>{57FAC53C-43E1-8734-EC31-EE51D8F7009B}</UniqueIdentifier>
+    </Filter>
     <Filter Include="enginecode\src\independent\system">
       <UniqueIdentifier>{5EB02227-CA1E-78A6-1308-33A67FB56D42}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="enginecode\src\independent\system\camera">
+      <UniqueIdentifier>{3683619F-2200-55E2-4B7D-55F63759F175}</UniqueIdentifier>
     </Filter>
     <Filter Include="enginecode\src\platform">
       <UniqueIdentifier>{A180F69D-0DB8-3E35-16C2-A2588278652E}</UniqueIdentifier>
     </Filter>
     <Filter Include="enginecode\src\platform\GLFW">
       <UniqueIdentifier>{80C80FD7-6C83-FF82-153B-78CD01D54913}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="enginecode\src\platform\OpenGL">
+      <UniqueIdentifier>{B50A6AEF-A130-3456-8A76-B921763B5922}</UniqueIdentifier>
     </Filter>
     <Filter Include="precompiled">
       <UniqueIdentifier>{B96624CA-251C-9DBF-AE10-97961AC593C3}</UniqueIdentifier>
@@ -90,7 +111,46 @@
     <ClInclude Include="enginecode\include\independent\events\windowsEvent.h">
       <Filter>enginecode\include\independent\events</Filter>
     </ClInclude>
+    <ClInclude Include="enginecode\include\independent\rendering\agnosticIndexBuffer.h">
+      <Filter>enginecode\include\independent\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\independent\rendering\bufferLayout.h">
+      <Filter>enginecode\include\independent\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\independent\rendering\objects\cube.h">
+      <Filter>enginecode\include\independent\rendering\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\independent\rendering\objects\pyramid.h">
+      <Filter>enginecode\include\independent\rendering\objects</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\independent\rendering\renderAPI.h">
+      <Filter>enginecode\include\independent\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\independent\rendering\renderer2D.h">
+      <Filter>enginecode\include\independent\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\independent\rendering\renderer3D.h">
+      <Filter>enginecode\include\independent\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\independent\rendering\rendererCommon.h">
+      <Filter>enginecode\include\independent\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\independent\rendering\shaderDataType.h">
+      <Filter>enginecode\include\independent\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\independent\systems\camera\camera.h">
+      <Filter>enginecode\include\independent\systems\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\independent\systems\camera\perspectiveCamera.h">
+      <Filter>enginecode\include\independent\systems\camera</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\independent\systems\inputHandler.h">
+      <Filter>enginecode\include\independent\systems</Filter>
+    </ClInclude>
     <ClInclude Include="enginecode\include\independent\systems\inputPoller.h">
+      <Filter>enginecode\include\independent\systems</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\independent\systems\properties.h">
       <Filter>enginecode\include\independent\systems</Filter>
     </ClInclude>
     <ClInclude Include="enginecode\include\independent\systems\system.h">
@@ -114,29 +174,27 @@
     <ClInclude Include="enginecode\include\platform\GLFW\GLFWwindow.h">
       <Filter>enginecode\include\platform\GLFW</Filter>
     </ClInclude>
+    <ClInclude Include="enginecode\include\platform\OpenGL\OpenGLIndexBuffer.h">
+      <Filter>enginecode\include\platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\platform\OpenGL\OpenGLShader.h">
+      <Filter>enginecode\include\platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\platform\OpenGL\OpenGLTexture.h">
+      <Filter>enginecode\include\platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\platform\OpenGL\OpenGLVertexArray.h">
+      <Filter>enginecode\include\platform\OpenGL</Filter>
+    </ClInclude>
+    <ClInclude Include="enginecode\include\platform\OpenGL\OpenGLVertexBuffer.h">
+      <Filter>enginecode\include\platform\OpenGL</Filter>
+    </ClInclude>
     <ClInclude Include="enginecode\include\platform\window\window.h">
       <Filter>enginecode\include\platform\window</Filter>
     </ClInclude>
     <ClInclude Include="precompiled\engine_pch.h">
       <Filter>precompiled</Filter>
     </ClInclude>
-    <ClInclude Include="enginecode\include\independent\rendering\agnosticIndexBuffer.h" />
-    <ClInclude Include="enginecode\include\independent\rendering\bufferLayout.h" />
-    <ClInclude Include="enginecode\include\independent\rendering\renderAPI.h" />
-    <ClInclude Include="enginecode\include\independent\rendering\renderer2D.h" />
-    <ClInclude Include="enginecode\include\independent\rendering\renderer3D.h" />
-    <ClInclude Include="enginecode\include\independent\rendering\rendererCommon.h" />
-    <ClInclude Include="enginecode\include\independent\rendering\shaderDataType.h" />
-    <ClInclude Include="enginecode\include\platform\OpenGL\OpenGLIndexBuffer.h" />
-    <ClInclude Include="enginecode\include\platform\OpenGL\OpenGLShader.h" />
-    <ClInclude Include="enginecode\include\platform\OpenGL\OpenGLTexture.h" />
-    <ClInclude Include="enginecode\include\platform\OpenGL\OpenGLVertexArray.h" />
-    <ClInclude Include="enginecode\include\platform\OpenGL\OpenGLVertexBuffer.h" />
-    <ClInclude Include="enginecode\include\independent\rendering\objects\cube.h" />
-    <ClInclude Include="enginecode\include\independent\rendering\objects\pyramid.h" />
-    <ClInclude Include="enginecode\include\independent\systems\properties.h" />
-    <ClInclude Include="enginecode\include\independent\systems\camera\camera.h" />
-    <ClInclude Include="enginecode\include\independent\systems\camera\perspectiveCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="enginecode\src\independent\core\application.cpp">
@@ -147,6 +205,21 @@
     </ClCompile>
     <ClCompile Include="enginecode\src\independent\core\timer.cpp">
       <Filter>enginecode\src\independent\core</Filter>
+    </ClCompile>
+    <ClCompile Include="enginecode\src\independent\rendering\renderAPI.cpp">
+      <Filter>enginecode\src\independent\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="enginecode\src\independent\rendering\renderer2D.cpp">
+      <Filter>enginecode\src\independent\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="enginecode\src\independent\rendering\renderer3D.cpp">
+      <Filter>enginecode\src\independent\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="enginecode\src\independent\system\camera\perspectiveCamera.cpp">
+      <Filter>enginecode\src\independent\system\camera</Filter>
+    </ClCompile>
+    <ClCompile Include="enginecode\src\independent\system\inputHandler.cpp">
+      <Filter>enginecode\src\independent\system</Filter>
     </ClCompile>
     <ClCompile Include="enginecode\src\independent\system\inputPoller.cpp">
       <Filter>enginecode\src\independent\system</Filter>
@@ -163,17 +236,23 @@
     <ClCompile Include="enginecode\src\platform\GLFW\GLFWwindow.cpp">
       <Filter>enginecode\src\platform\GLFW</Filter>
     </ClCompile>
+    <ClCompile Include="enginecode\src\platform\OpenGL\OpenGLIndexBuffer.cpp">
+      <Filter>enginecode\src\platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="enginecode\src\platform\OpenGL\OpenGLShader.cpp">
+      <Filter>enginecode\src\platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="enginecode\src\platform\OpenGL\OpenGLTexture.cpp">
+      <Filter>enginecode\src\platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="enginecode\src\platform\OpenGL\OpenGLVertexArray.cpp">
+      <Filter>enginecode\src\platform\OpenGL</Filter>
+    </ClCompile>
+    <ClCompile Include="enginecode\src\platform\OpenGL\OpenGLVertexBuffer.cpp">
+      <Filter>enginecode\src\platform\OpenGL</Filter>
+    </ClCompile>
     <ClCompile Include="precompiled\engine_pch.cpp">
       <Filter>precompiled</Filter>
     </ClCompile>
-    <ClCompile Include="enginecode\src\independent\rendering\renderAPI.cpp" />
-    <ClCompile Include="enginecode\src\independent\rendering\renderer2D.cpp" />
-    <ClCompile Include="enginecode\src\independent\rendering\renderer3D.cpp" />
-    <ClCompile Include="enginecode\src\platform\OpenGL\OpenGLIndexBuffer.cpp" />
-    <ClCompile Include="enginecode\src\platform\OpenGL\OpenGLShader.cpp" />
-    <ClCompile Include="enginecode\src\platform\OpenGL\OpenGLTexture.cpp" />
-    <ClCompile Include="enginecode\src\platform\OpenGL\OpenGLVertexArray.cpp" />
-    <ClCompile Include="enginecode\src\platform\OpenGL\OpenGLVertexBuffer.cpp" />
-    <ClCompile Include="enginecode\src\independent\system\camera\perspectiveCamera.cpp" />
   </ItemGroup>
 </Project>

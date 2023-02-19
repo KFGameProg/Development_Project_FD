@@ -1,5 +1,4 @@
-/** \file application.cpp
-*/
+/** \file application.cpp */
 
 #include "engine_pch.h"
 #include <glad/glad.h>

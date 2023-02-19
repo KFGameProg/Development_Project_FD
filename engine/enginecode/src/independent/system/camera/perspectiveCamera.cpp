@@ -1,3 +1,4 @@
+/** \file   perspectiveCamera.cpp */
 #include "engine_pch.h"
 #include "systems/camera/perspectiveCamera.h"
 
@@ -22,7 +23,7 @@ namespace Engine
 		return glm::perspective(glm::radians(m_zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, m_nearP, m_farP);
 	}
 
-	void PerspectiveCamera::attachHandler(std::shared_ptr<Window> W, std::shared_ptr<InputPoller> H)
+	void PerspectiveCamera::attachHandler(std::shared_ptr<Window> W, std::shared_ptr<InputHandler> H)
 	{
 		m_window = W;
 		m_handler = H;
@@ -31,7 +32,7 @@ namespace Engine
 	void PerspectiveCamera::update(float dt)
 	{
 		float velocity = m_speed * dt;
-		//std::function<bool(MouseMovedEvent&)> mouseMove = m_handler->getOnMouseMovedCallBack();
+		//bool mouseMove = m_handler->mouseHasMoved();
 
 		if (InputPoller::keyPressed(NG_KEY_W)) {
 			m_position += m_front * velocity;
@@ -53,6 +54,9 @@ namespace Engine
 		}
 
 		look(InputPoller::getMouseX(), InputPoller::getMouseY());
+		zoom(m_handler->getMouseScrollY());
+
+		m_handler->endFrame();
 	}
 	
 	void PerspectiveCamera::updateCameraVectors()

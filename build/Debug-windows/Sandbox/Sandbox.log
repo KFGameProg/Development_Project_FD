@@ -1,2 +1,6 @@
-﻿MSVCRTD.lib(initializers.obj) : warning LNK4098: defaultlib 'libcmtd.lib' conflicts with use of other libs; use /NODEFAULTLIB:library
+﻿  engineApp.cpp
+C:\3rd Year\Development Project\engine\enginecode\include\platform\GLFW\GLFWsystems.h(18,1): warning C4551: function call missing argument list
+C:\3rd Year\Development Project\engine\enginecode\include\independent\systems\inputHandler.h(60,34): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\3rd Year\Development Project\engine\enginecode\include\independent\systems\inputHandler.h(61,35): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\3rd Year\Development Project\engine\enginecode\include\independent\rendering\objects\cube.h(37,6): warning C4305: 'initializing': truncation from 'double' to 'float'
   Sandbox.vcxproj -> C:\3rd Year\Development Project\sandbox\..\bin\Debug-windows\Sandbox\Sandbox.exe

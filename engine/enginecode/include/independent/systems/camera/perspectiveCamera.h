@@ -14,7 +14,7 @@ namespace Engine
 		glm::mat4 getViewMatrix() override;
 		glm::mat4 getProjectionMatrix() override;
 		void update(float dt) override;
-		void attachHandler(std::shared_ptr<Window> W, std::shared_ptr<InputPoller> H) override;
+		void attachHandler(std::shared_ptr<Window> W, std::shared_ptr<InputHandler> H) override;
 
 	private:
 		float m_speed;         // camera speed
@@ -22,7 +22,7 @@ namespace Engine
 		float m_pitchContrain; // keeps pitch between 90 degrees to avoid screen flips
 
 		std::shared_ptr<Window> m_window;
-		std::shared_ptr<InputPoller> m_handler;
+		std::shared_ptr<InputHandler> m_handler;
 
 		void updateCameraVectors();
 		void zoom(float offsetY);

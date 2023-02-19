@@ -1,5 +1,4 @@
-/** \file application.h
-*/
+/** \file application.h */
 #pragma once
 #include "core/log.h"
 #include "core/timer.h"
@@ -30,7 +29,7 @@ namespace Engine {
 		std::shared_ptr<Timer> m_timer;		//!< Timer
 		std::shared_ptr<GLFWSystem> m_GLFWsys;	//!< GLFW initialise and terminate system
 		std::shared_ptr<Window> m_window;	//!< Window
-		std::shared_ptr<InputPoller> m_handler;
+		std::shared_ptr<InputHandler> m_handler;
 		PerspectiveCamera* m_cam;
 		Cube* o_cube;
 		Pyramid* o_pyramid;
