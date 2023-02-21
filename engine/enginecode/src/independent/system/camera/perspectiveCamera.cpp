@@ -1,5 +1,7 @@
 /** \file   perspectiveCamera.cpp */
+
 #include "engine_pch.h"
+#include <glad/glad.h>
 #include "systems/camera/perspectiveCamera.h"
 
 namespace Engine
