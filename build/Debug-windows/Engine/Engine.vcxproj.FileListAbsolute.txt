@@ -2,3 +2,5 @@ C:\3rd Year\Development Project\individual-coursework-2022-ReconCS4-b54f07c2923c
 C:\3rd Year\Development Project\individual-coursework-2022-ReconCS4-b54f07c2923ce66c47dc9eb6c94d42b535e8eae8\build\Debug-windows\Engine\Engine.pdb
 C:\3rd Year\Development Project\bin\Debug-windows\Engine\Engine.pdb
 C:\3rd Year\Development Project\build\Debug-windows\Engine\Engine.pdb
+C:\3rd Year\test\bin\Debug-windows\Engine\Engine.pdb
+C:\3rd Year\test\build\Debug-windows\Engine\Engine.pdb

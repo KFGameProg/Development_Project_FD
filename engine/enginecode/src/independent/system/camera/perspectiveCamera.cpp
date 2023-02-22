@@ -56,7 +56,7 @@ namespace Engine
 		}
 
 		look(InputPoller::getMouseX(), InputPoller::getMouseY());
-		zoom(m_handler->getMouseScrollY());
+		//zoom(m_handler->getMouseScrollY());
 
 		m_handler->endFrame();
 	}
