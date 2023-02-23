@@ -29,6 +29,7 @@ namespace Engine {
 		std::shared_ptr<Timer> m_timer;		//!< Timer
 		std::shared_ptr<GLFWSystem> m_GLFWsys;	//!< GLFW initialise and terminate system
 		std::shared_ptr<Window> m_window;	//!< Window
+		GLFWwindow* m_win;
 		std::shared_ptr<InputHandler> m_handler;
 		PerspectiveCamera* m_cam;
 		Cube* o_cube;

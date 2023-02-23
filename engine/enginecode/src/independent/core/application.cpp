@@ -23,9 +23,12 @@ namespace Engine {
 		{
 			s_instance = this;
 		}
+
+		m_handler = std::make_shared<InputHandler>();
+
 		//!< Start Systems
 		m_cam = new PerspectiveCamera();
-		m_cam->attachHandler(m_window, m_handler);
+		m_cam->attachHandler(m_win, m_handler);
 
 		o_cube = new Cube();
 		o_pyramid = new Pyramid();
@@ -299,6 +302,7 @@ namespace Engine {
 			glm::vec3(0.f, 1.f, 0.f)
 		);
 		glm::mat4 projection = glm::perspective(glm::radians(45.f), 1024.f / 800.f, 0.1f, 100.f);
+		//glm::mat4 projection = m_cam->getProjectionMatrix();
 		glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0.f, 0.f, -6.f));
 
 		//!< Running window operations
@@ -317,6 +321,9 @@ namespace Engine {
 			m_cam->update(timestep);
 			m_camPos = m_cam->getPosition();
 			m_camFront = m_cam->getFront();
+
+			view = glm::lookAt(m_cam->getPosition(), glm::vec3{ 0.f }, WORLD_UP);
+			view = m_cam->getViewMatrix();
 
 			//**************************OpenGL Draw**********************************
 			glUseProgram(TPShader->getID());
@@ -351,7 +358,8 @@ namespace Engine {
 			TPShader->uploadMat4("u_model", model);
 			TPShader->uploadInt("u_texData", 0);
 
-			glDrawElements(GL_TRIANGLES, 6 * 6, GL_UNSIGNED_INT, nullptr);
+			//glDrawElements(GL_TRIANGLES, 6 * 6, GL_UNSIGNED_INT, nullptr);
+			glDrawElements(GL_LINES, 6 * 6, GL_UNSIGNED_INT, nullptr);
 
 			m_window->onUpdate(timestep);
 

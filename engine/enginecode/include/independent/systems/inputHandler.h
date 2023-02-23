@@ -27,16 +27,16 @@ namespace Engine
         void MouseClick(int32_t button, int32_t action, int32_t mods);
         void endFrame();
 
-        inline float& getMousePosX() { return m_lastX; }
-        inline float& getMousePosY() { return m_lastY; }
-        inline float& getMouseDeltaX() { return m_mouseDeltaX; }
-        inline float& getMouseDeltaY() { return m_mouseDeltaY; }
-        inline float& getMouseScrollX() { return m_Xscroll; }
-        inline float& getMouseScrollY() { return m_Yscroll; }
-        inline bool& isRightClicked() { return m_mouseButtonPressed[1]; }
-        inline bool& isLeftClicked() { return m_mouseButtonPressed[0]; }
-        inline bool  isDragging() { return m_isDragging && m_mouseButtonPressed[1]; }
-        inline bool  mouseHasMoved() { return (m_mouseDeltaX != 0.0 && m_mouseDeltaY != 0.0); }
+        inline float getMousePosX()    { return m_lastX; }
+        inline float getMousePosY()    { return m_lastY; }
+        inline float getMouseDeltaX()  { return m_mouseDeltaX; }
+        inline float getMouseDeltaY()  { return m_mouseDeltaY; }
+        inline float getMouseScrollX() { return m_Xscroll; }
+        inline float getMouseScrollY() { return m_Yscroll; }
+        inline bool  isRightClicked()  { return m_mouseButtonPressed[1]; }
+        inline bool  isLeftClicked()   { return m_mouseButtonPressed[0]; }
+        inline bool  isDragging()      { return m_isDragging && m_mouseButtonPressed[1]; }
+        inline bool  mouseHasMoved()   { return (m_mouseDeltaX != 0.0 && m_mouseDeltaY != 0.0); }
 
         bool onClose(WindowCloseEvent& e); //!< On Close Event
         bool onResize(WindowResizeEvent& e); //!< On Resize Event
@@ -49,8 +49,8 @@ namespace Engine
         bool onMouseMove(MouseMovedEvent& e);	//!< On Mouse Moved Event 
         bool onMouseScroll(MouseScrolledEvent& e);	//!< On Mouse Wheel Scrolled Event
 
-        bool  keyHasBeenPressed();
-        bool& isKeyPressed(int keyCode) { return m_keysPressed[keyCode]; }
+        bool keyHasBeenPressed();
+        bool isKeyPressed(int keyCode) { return m_keysPressed[keyCode]; }
         void processedKey(int keyCode) { m_keysPressed[keyCode] = false; }
 
     private:

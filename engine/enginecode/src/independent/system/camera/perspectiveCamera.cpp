@@ -12,6 +12,7 @@ namespace Engine
 		m_yaw = -90.0f;
 		m_pitch = 0.0f;
 		m_pitchContrain = 89.0f;
+		m_speed = 50.f;
 		updateCameraVectors();
 	}
 
@@ -25,7 +26,7 @@ namespace Engine
 		return glm::perspective(glm::radians(m_zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, m_nearP, m_farP);
 	}
 
-	void PerspectiveCamera::attachHandler(std::shared_ptr<Window> W, std::shared_ptr<InputHandler> H)
+	void PerspectiveCamera::attachHandler(GLFWwindow* W, std::shared_ptr<InputHandler> H)
 	{
 		m_window = W;
 		m_handler = H;
@@ -34,7 +35,7 @@ namespace Engine
 	void PerspectiveCamera::update(float dt)
 	{
 		float velocity = m_speed * dt;
-		//bool mouseMove = m_handler->mouseHasMoved();
+		bool mouseMove = m_handler->mouseHasMoved();
 
 		if (InputPoller::keyPressed(NG_KEY_W)) {
 			m_position += m_front * velocity;
@@ -55,9 +56,9 @@ namespace Engine
 			m_position -= m_up * velocity;
 		}
 
-		look(InputPoller::getMouseX(), InputPoller::getMouseY());
-		//zoom(m_handler->getMouseScrollY());
-
+		look(m_handler->getMouseDeltaX(), m_handler->getMouseDeltaY());
+		zoom(m_handler->getMouseScrollY());
+		
 		m_handler->endFrame();
 	}
 	
@@ -90,8 +91,9 @@ namespace Engine
 		m_yaw += offsetX;
 		m_pitch += offsetY;
 
-		if (m_pitch > m_pitchContrain) m_pitch = m_pitchContrain;
-		if (m_pitch < -m_pitchContrain) m_pitch = -m_pitchContrain;
+		std::clamp(m_pitch, -m_pitchContrain, m_pitchContrain);
+		/*if (m_pitch > m_pitchContrain) m_pitch = m_pitchContrain;
+		if (m_pitch < -m_pitchContrain) m_pitch = -m_pitchContrain;*/
 
 		updateCameraVectors();
 	}

@@ -18,8 +18,6 @@ namespace Engine {
 		Camera(glm::vec3 pos = glm::vec3(0, 0, 10)) :
 			m_position(pos),
 			m_front(glm::vec3(0.f,0.f,-1.f)),
-			m_right(glm::vec3(-1.f,0.f,0.f)),
-			m_up(glm::vec3(0.f,-1.f,0.f)),
 			m_zoom(45.f),
 			m_yaw(-90.0f),
 			m_pitch(0.0),
@@ -41,7 +39,7 @@ namespace Engine {
 
 		// Control
 		virtual void update(float dt) {};
-		virtual void attachHandler(std::shared_ptr<Window> W, std::shared_ptr<InputHandler> H) {};
+		virtual void attachHandler(GLFWwindow* W, std::shared_ptr<InputHandler> H) {};
 
 	protected:
 		glm::vec3 m_position;
