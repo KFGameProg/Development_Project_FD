@@ -195,6 +195,9 @@
     <ClInclude Include="precompiled\engine_pch.h">
       <Filter>precompiled</Filter>
     </ClInclude>
+    <ClInclude Include="enginecode\include\independent\rendering\normalMapper.h">
+      <Filter>enginecode\include\independent\rendering</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="enginecode\src\independent\core\application.cpp">
@@ -253,6 +256,9 @@
     </ClCompile>
     <ClCompile Include="precompiled\engine_pch.cpp">
       <Filter>precompiled</Filter>
+    </ClCompile>
+    <ClCompile Include="enginecode\src\independent\rendering\normalMapper.cpp">
+      <Filter>enginecode\src\independent\rendering</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

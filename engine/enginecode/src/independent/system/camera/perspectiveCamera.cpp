@@ -6,13 +6,12 @@
 
 namespace Engine
 {
-	PerspectiveCamera::PerspectiveCamera(glm::vec3 pos)
+	PerspectiveCamera::PerspectiveCamera(glm::vec3 pos) : Camera(pos), m_speed(50.f), m_sensitivity(0.025f)
 	{
 		m_zoom = 45.0;
 		m_yaw = -90.0f;
 		m_pitch = 0.0f;
 		m_pitchContrain = 89.0f;
-		m_speed = 50.f;
 		updateCameraVectors();
 	}
 
@@ -37,6 +36,10 @@ namespace Engine
 		float velocity = m_speed * dt;
 		bool mouseMove = m_handler->mouseHasMoved();
 
+		if (InputPoller::keyPressed(NG_KEY_LEFT_SHIFT)) {
+			velocity = (m_speed * dt) * 4;
+		}
+
 		if (InputPoller::keyPressed(NG_KEY_W)) {
 			m_position += m_front * velocity;
 		}
@@ -57,7 +60,8 @@ namespace Engine
 		}
 
 		look(m_handler->getMouseDeltaX(), m_handler->getMouseDeltaY());
-		zoom(m_handler->getMouseScrollY());
+		//look(InputPoller::getMouseX(), InputPoller::getMouseY());
+		//zoom(m_handler->getMouseScrollY());
 		
 		m_handler->endFrame();
 	}
@@ -91,9 +95,9 @@ namespace Engine
 		m_yaw += offsetX;
 		m_pitch += offsetY;
 
-		std::clamp(m_pitch, -m_pitchContrain, m_pitchContrain);
-		/*if (m_pitch > m_pitchContrain) m_pitch = m_pitchContrain;
-		if (m_pitch < -m_pitchContrain) m_pitch = -m_pitchContrain;*/
+		//std::clamp(m_pitch, -m_pitchContrain, m_pitchContrain);
+		if (m_pitch > m_pitchContrain) m_pitch = m_pitchContrain;
+		if (m_pitch < -m_pitchContrain) m_pitch = -m_pitchContrain;
 
 		updateCameraVectors();
 	}

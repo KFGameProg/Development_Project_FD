@@ -60,6 +60,8 @@ namespace Engine {
 		m_window->getEventHandler().setOnMouseWheelCallBack(std::bind(&Application::onMouseScroll, this, std::placeholders::_1));
 
 		InputPoller::setNativeWindow(m_window->getNativeWindow());
+
+		glClearColor(0.5f, 0.5f, 0.5f, 1.f);
 	}
 
 	Application::~Application()
@@ -71,6 +73,7 @@ namespace Engine {
 		m_logSystem->stop();
 	}
 
+#pragma region EVENTS
 	//!< On Close Event 
 	bool Application::onClose(WindowCloseEvent& e)
 	{
@@ -109,7 +112,7 @@ namespace Engine {
 	bool Application::onKeyPressed(KeyPressedEvent& e)
 	{
 		e.handle(true);
-		Log::info("Key Pressed event: key {0}, repeat {1}", e.getKey(), e.getRepeatCount());
+		//Log::info("Key Pressed event: key {0}, repeat {1}", e.getKey(), e.getRepeatCount());
 		
 		if (e.getKey() == NG_KEY_ESCAPE)
 		{
@@ -123,7 +126,7 @@ namespace Engine {
 	bool Application::onKeyReleased(KeyReleasedEvent& e)
 	{
 		e.handle(true);
-		Log::info("Key Released Event: key {0}", e.getKey());
+		//Log::info("Key Released Event: key {0}", e.getKey());
 		return e.handled();
 	}
 
@@ -134,13 +137,12 @@ namespace Engine {
 		Log::info("Mouse Pressed Event: button {0}", e.getButton());
 		if (e.getButton() == NG_MOUSE_BUTTON_1)			//!< Left Mouse Button
 		{
-			Log::warn("Left Mouse Button Pressed");
-			glClearColor(1.f, 1.f, 1.f, 1.f);
+			//Log::warn("Left Mouse Button Pressed");
+			//
 		}
 		if (e.getButton() == NG_MOUSE_BUTTON_2)			//!< Right Mouse Button
 		{
 			Log::warn("Right Mouse Button Pressed");
-			glClearColor(0.f, 0.f, 0.f, 1.f);
 		}
 		if (e.getButton() == NG_MOUSE_BUTTON_3)			//!< Middle Mouse Button
 		{
@@ -174,9 +176,11 @@ namespace Engine {
 		Log::info("Mouse Wheel Event: {0}", e.getOffsetY());
 		return e.handled();
 	}
+#pragma endregion
 
 	void Application::run()
 	{
+
 #pragma region GL_BUFFERS
 		//!< Buffer Setup
 		//******************Cube Vertex Data***********************
@@ -202,23 +206,34 @@ namespace Engine {
 		glCreateVertexArrays(1, &cubeVAO);
 		glBindVertexArray(cubeVAO);
 
+		NormalMapper cubeNormal;
+		cubeNormal.calculateTanAndBitan(o_cube->getVertices(), 192, o_cube->getIndices(), 36);
+		std::vector<float> normalizedCubeVertices = cubeNormal.getUpdatedVertexData();
+
 		glCreateBuffers(1, &cubeVBO);
 		glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
-		glBufferData(GL_ARRAY_BUFFER, o_cube->getVertexSize(), o_cube->getVertices(), GL_STATIC_DRAW);
+		//glBufferData(GL_ARRAY_BUFFER, o_cube->getVertexSize(), o_cube->getVertices(), GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, normalizedCubeVertices.size() * sizeof(GLfloat), normalizedCubeVertices.data(), GL_STATIC_DRAW);
 
 		glCreateBuffers(1, &cubeIBO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cubeIBO);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, o_cube->getIndexSize(), o_cube->getIndices(), GL_STATIC_DRAW);
 
-		//(pos 0 (position), 3 floats, not normalized, 8 float between each data line, start at 0)
+		//(pos 0 (position), 3 floats, not normalized, 14 floats between each data line, start at 0)
 		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)0); // Position
-		 //(pos 1 (normal), 3 floats, not normalized, 8 float between each data line, start at 3)
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 14 * sizeof(float), (void*)0); // Position
+		//(pos 1 (normal), 3 floats, not normalized, 14 floats between each data line, start at 3)
 		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(3 * sizeof(float))); // Normal
-		 //(pos 2 (uv), 2 floats, not normalized, 8 float between each data line, start at 6)
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 14 * sizeof(float), (void*)(3 * sizeof(float))); // Normal
+		//(pos 2 (uv), 2 floats, not normalized, 14 floats between each data line, start at 6)
 		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float))); // UV Coords
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 14 * sizeof(float), (void*)(6 * sizeof(float))); // UV Coords
+		//(pos 3 (tangent), 3 floats, not normalized, 14 floats between each data line, start at 8)
+		glEnableVertexAttribArray(3);
+		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 14 * sizeof(float), (void*)(8 * sizeof(float))); // Tangent
+		//(pos 4 (bi-tangent), 3 floats, not normalized, 14 floats between each data line, start at 11)
+		glEnableVertexAttribArray(4);
+		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, 14 * sizeof(float), (void*)(11 * sizeof(float))); // Bi-Tangent
 
 		 //Unbind everyting
 		glBindVertexArray(0);
@@ -267,6 +282,12 @@ namespace Engine {
 		 //(pos 2 (uv), 2 floats, not normalized, 8 float between each data line, start at 6)
 		glEnableVertexAttribArray(2);
 		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void*)(6 * sizeof(float))); // UV Coords
+		//(pos 3 (tangent), 3 floats, not normalized, 14 floats between each data line, start at 8)
+		glEnableVertexAttribArray(3);
+		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 14 * sizeof(float), (void*)(8 * sizeof(float))); // Tangent
+		//(pos 4 (bi-tangent), 3 floats, not normalized, 14 floats between each data line, start at 11)
+		glEnableVertexAttribArray(4);
+		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, 14 * sizeof(float), (void*)(11 * sizeof(float))); // Bi-Tangent
 
 		 //Unbind everyting
 		glBindVertexArray(0);
@@ -296,14 +317,9 @@ namespace Engine {
 
 #pragma endregion
 
-		glm::mat4 view = glm::lookAt(
-			glm::vec3(0.f, 0.f, 0.f),
-			glm::vec3(0.f, 0.f, -1.f),
-			glm::vec3(0.f, 1.f, 0.f)
-		);
-		glm::mat4 projection = glm::perspective(glm::radians(45.f), 1024.f / 800.f, 0.1f, 100.f);
-		//glm::mat4 projection = m_cam->getProjectionMatrix();
-		glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0.f, 0.f, -6.f));
+		glm::mat4 view;
+		glm::mat4 projection = m_cam->getProjectionMatrix();
+		glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0.f, 0.f, -2.f));
 
 		//!< Running window operations
 
@@ -324,7 +340,9 @@ namespace Engine {
 
 			view = glm::lookAt(m_cam->getPosition(), glm::vec3{ 0.f }, WORLD_UP);
 			view = m_cam->getViewMatrix();
-
+			
+			m_handler->MouseMove(InputPoller::getMouseX(), InputPoller::getMouseY());
+			
 			//**************************OpenGL Draw**********************************
 			glUseProgram(TPShader->getID());
 
@@ -339,8 +357,8 @@ namespace Engine {
 			TPShader->uploadMat4("u_view", view);
 			TPShader->uploadMat4("u_projection", projection);
 			TPShader->uploadFloat3("u_lightColour", { 1.f, 1.f, 1.f });
-			TPShader->uploadFloat3("u_lightPosition", { 1.f, 4.f, 6.f });
-			TPShader->uploadFloat3("u_viewPosition", { 0.f, 0.f, 0.f });
+			TPShader->uploadFloat3("u_lightPos", { 1.f, 4.f, 6.f });
+			TPShader->uploadFloat3("u_viewPos", { 0.f, 0.f, 0.f });
 			TPShader->uploadMat4("u_model", model);
 			TPShader->uploadFloat4("u_tint", { 0.4f, 0.7f, 0.3f, 1.f });
 			TPShader->uploadInt("u_texData", 0);
@@ -358,13 +376,14 @@ namespace Engine {
 			TPShader->uploadMat4("u_model", model);
 			TPShader->uploadInt("u_texData", 0);
 
-			//glDrawElements(GL_TRIANGLES, 6 * 6, GL_UNSIGNED_INT, nullptr);
-			glDrawElements(GL_LINES, 6 * 6, GL_UNSIGNED_INT, nullptr);
+			glDrawElements(GL_TRIANGLES, 6 * 6, GL_UNSIGNED_INT, nullptr);
+			//glDrawElements(GL_LINES, 6 * 6, GL_UNSIGNED_INT, nullptr);
 
 			m_window->onUpdate(timestep);
 
 			m_timer->reset();
 		};
+		glDisable(GL_DEPTH_TEST);
 
 		Log::info("Exiting");
 	}

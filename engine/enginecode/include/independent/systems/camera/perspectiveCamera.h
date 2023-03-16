@@ -9,7 +9,7 @@ namespace Engine
 	class PerspectiveCamera : public Camera
 	{
 	public:
-		PerspectiveCamera(glm::vec3 pos = glm::vec3(0.f, 1.f, 10.f));
+		PerspectiveCamera(glm::vec3 pos = glm::vec3(0.f, 0.f, 2.f));
 
 		glm::mat4 getViewMatrix() override;
 		glm::mat4 getProjectionMatrix() override;
@@ -26,6 +26,6 @@ namespace Engine
 
 		void updateCameraVectors();
 		void zoom(float offsetY);
-		void look(float offsetX, float offsetY);  // mouse scroll
+		void look(float offsetX, float offsetY);
 	};
 }

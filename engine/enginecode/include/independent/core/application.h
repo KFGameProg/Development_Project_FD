@@ -10,6 +10,7 @@
 #include "platform/window/window.h"
 #include "platform/GLFW/GLFWCodes.h"
 #include "systems/camera/perspectiveCamera.h"
+#include "independent/rendering/normalMapper.h"
 #include "independent/rendering/objects/cube.h"
 #include "independent/rendering/objects/pyramid.h"
 
@@ -38,8 +39,8 @@ namespace Engine {
 	private:
 		static Application* s_instance; //!< Singleton instance of the application
 		bool m_running = true; //!< Is the application running?
-		int32_t width = 800;
-		int32_t height = 600;
+		int32_t width = SCR_WIDTH;
+		int32_t height = SCR_HEIGHT;
 		glm::vec3 m_camPos;
 		glm::vec3 m_camFront;
 

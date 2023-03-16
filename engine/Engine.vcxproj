@@ -106,6 +106,7 @@
     <ClInclude Include="enginecode\include\independent\events\windowsEvent.h" />
     <ClInclude Include="enginecode\include\independent\rendering\agnosticIndexBuffer.h" />
     <ClInclude Include="enginecode\include\independent\rendering\bufferLayout.h" />
+    <ClInclude Include="enginecode\include\independent\rendering\normalMapper.h" />
     <ClInclude Include="enginecode\include\independent\rendering\objects\cube.h" />
     <ClInclude Include="enginecode\include\independent\rendering\objects\pyramid.h" />
     <ClInclude Include="enginecode\include\independent\rendering\renderAPI.h" />
@@ -137,6 +138,7 @@
     <ClCompile Include="enginecode\src\independent\core\application.cpp" />
     <ClCompile Include="enginecode\src\independent\core\log.cpp" />
     <ClCompile Include="enginecode\src\independent\core\timer.cpp" />
+    <ClCompile Include="enginecode\src\independent\rendering\normalMapper.cpp" />
     <ClCompile Include="enginecode\src\independent\rendering\renderAPI.cpp" />
     <ClCompile Include="enginecode\src\independent\rendering\renderer2D.cpp" />
     <ClCompile Include="enginecode\src\independent\rendering\renderer3D.cpp" />
