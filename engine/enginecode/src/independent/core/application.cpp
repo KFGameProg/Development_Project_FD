@@ -61,7 +61,7 @@ namespace Engine {
 
 		InputPoller::setNativeWindow(m_window->getNativeWindow());
 
-		glClearColor(0.5f, 0.5f, 0.5f, 1.f);
+		glClearColor(0.3f, 0.3f, 0.3f, 1.f);
 	}
 
 	Application::~Application()
@@ -182,25 +182,8 @@ namespace Engine {
 	{
 
 #pragma region GL_BUFFERS
+
 		//!< Buffer Setup
-		//******************Cube Vertex Data***********************
-		//std::shared_ptr<OpenGLVertexArray> cubeVAO;
-		//std::shared_ptr<OpenGLVertexBuffer> cubeVBO;
-		//std::shared_ptr<OpenGLIndexBuffer> cubeIBO;
-		////std::shared_ptr<AgsIndexBuffer> cubeIBO;
-
-		//cubeVAO.reset(new OpenGLVertexArray);
-
-		//BufferLayout cubeBufLay = { ShaderDataType::Float3, ShaderDataType::Float3, ShaderDataType::Float2 };
-		//cubeVBO.reset(new OpenGLVertexBuffer(o_cube.getVertices(), o_cube.getVertexSize(), cubeBufLay));
-		//
-		//cubeIBO.reset(new OpenGLIndexBuffer(o_cube.getIndices(), o_cube.getIndexSize()));
-		////cubeIBO.reset(AgsIndexBuffer::create(o_cube.getIndices(), o_cube.getIndexSize()));
-		//
-		//cubeVAO->addVertexBuffer(cubeVBO);
-		//cubeVAO->setIndexBuffer(cubeIBO);
-		
-
 		uint32_t cubeVAO, cubeVBO, cubeIBO;
 
 		glCreateVertexArrays(1, &cubeVAO);
@@ -242,32 +225,19 @@ namespace Engine {
 
 
 		//******************Pyramid Vertex Data***********************
-		//std::shared_ptr<OpenGLVertexArray> pyramidVAO;
-		//std::shared_ptr<OpenGLVertexBuffer> pyramidVBO;
-		//std::shared_ptr<OpenGLIndexBuffer> pyramidIBO;
-		////std::shared_ptr<AgsIndexBuffer> pyramidIBO;
-
-		//pyramidVAO.reset(new OpenGLVertexArray);
-
-		//BufferLayout pyramidBufLay = { ShaderDataType::Float3, ShaderDataType::Float3 };
-		//pyramidVBO.reset(new OpenGLVertexBuffer(o_pyramid.getVertices(), o_pyramid.getVertexSize(), pyramidBufLay));
-
-		//pyramidIBO.reset(new OpenGLIndexBuffer(o_pyramid.getIndices(), o_pyramid.getIndexSize()));
-		////pyramidIBO.reset(AgsIndexBuffer::create(o_pyramid.getIndices(), o_pyramid.getIndexSize()));
-
-		//pyramidVAO->addVertexBuffer(pyramidVBO);
-		//pyramidVAO->setIndexBuffer(pyramidIBO);
-
-		
-
 		uint32_t pyramidVAO, pyramidVBO, pyramidIBO;
 
 		glCreateVertexArrays(1, &pyramidVAO);
 		glBindVertexArray(pyramidVAO);
 
+		NormalMapper pyramidNormal;
+		cubeNormal.calculateTanAndBitan(o_pyramid->getVertices(), 128, o_pyramid->getIndices(), 18);
+		std::vector<float> normalizedPyramidVertices = pyramidNormal.getUpdatedVertexData();
+
 		glCreateBuffers(1, &pyramidVBO);
 		glBindBuffer(GL_ARRAY_BUFFER, pyramidVBO);
 		glBufferData(GL_ARRAY_BUFFER, o_pyramid->getVertexSize(), o_pyramid->getVertices(), GL_STATIC_DRAW);
+		//glBufferData(GL_ARRAY_BUFFER, normalizedPyramidVertices.size() * sizeof(GLfloat), normalizedPyramidVertices.data(), GL_STATIC_DRAW);
 
 		glCreateBuffers(1, &pyramidIBO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pyramidIBO);
@@ -298,6 +268,9 @@ namespace Engine {
 
 #pragma region SHADERS
 
+		std::shared_ptr<OpenGLShader> BPShader;
+		BPShader.reset(new OpenGLShader("..\\assets\\shaders\\lightingShader.vert", "..\\assets\\shaders\\lightingShader.frag"));
+
 		std::shared_ptr<OpenGLShader> TPShader;
 		TPShader.reset(new OpenGLShader("..\\assets\\shaders\\texturePhong.vert", "..\\assets\\shaders\\texturePhong.frag"));
 
@@ -317,9 +290,17 @@ namespace Engine {
 
 #pragma endregion
 
-		glm::mat4 view;
-		glm::mat4 projection = m_cam->getProjectionMatrix();
-		glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(0.f, 0.f, -2.f));
+//**********************************Scene Attributes**********************************
+		// Transforms
+		projection = m_cam->getProjectionMatrix();
+		model = glm::mat4(1.0f);
+		// Object
+		cubeCol = glm::vec3(1.0, 0.0, 1.0);
+		pyramidCol = glm::vec3(0.9, 0.9, 0.9);
+		tint = glm::vec4(0.4f, 0.7f, 0.3f, 1.f);
+		// Light
+		dirLightCol = glm::vec3(1.f);
+		dirLightPos = glm::vec3(0.f, -1.f, 5.f);
 
 		//!< Running window operations
 
@@ -335,49 +316,46 @@ namespace Engine {
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			m_cam->update(timestep);
-			m_camPos = m_cam->getPosition();
-			m_camFront = m_cam->getFront();
+			camPos = m_cam->getPosition();
+			camFront = m_cam->getFront();
 
 			view = glm::lookAt(m_cam->getPosition(), glm::vec3{ 0.f }, WORLD_UP);
 			view = m_cam->getViewMatrix();
 			
-			m_handler->MouseMove(InputPoller::getMouseX(), InputPoller::getMouseY());
+			m_handler->MouseMove(InputPoller::getMouseX() * 6.f, InputPoller::getMouseY() * 6.f);
 			
 			//**************************OpenGL Draw**********************************
-			glUseProgram(TPShader->getID());
+			glUseProgram(BPShader->getID());
 
-			glBindTexture(GL_TEXTURE_2D, plainWhiteTex->getID());
+			//glBindTexture(GL_TEXTURE_2D, plainWhiteTex->getID());
 			
-			// Pyramid
-			/*glBindVertexArray(pyramidVAO->getID());
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pyramidIBO->getID());*/
-			glBindVertexArray(pyramidVAO);
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pyramidIBO);
-
-			TPShader->uploadMat4("u_view", view);
-			TPShader->uploadMat4("u_projection", projection);
-			TPShader->uploadFloat3("u_lightColour", { 1.f, 1.f, 1.f });
-			TPShader->uploadFloat3("u_lightPos", { 1.f, 4.f, 6.f });
-			TPShader->uploadFloat3("u_viewPos", { 0.f, 0.f, 0.f });
-			TPShader->uploadMat4("u_model", model);
-			TPShader->uploadFloat4("u_tint", { 0.4f, 0.7f, 0.3f, 1.f });
-			TPShader->uploadInt("u_texData", 0);
-
-			//glDrawElements(GL_TRIANGLES, 3 * 6, GL_UNSIGNED_INT, nullptr);
-
 			// Cube
-			/*glBindVertexArray(cubeVAO->getID());
-			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cubeIBO->getID());*/
 			glBindVertexArray(cubeVAO);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cubeIBO);
 
-			//glBindTexture(GL_TEXTURE_2D, ->getID());
+			glm::mat4 n_Model = glm::translate(model, glm::vec3(-2.f, 0.f, -2.f));
 
-			TPShader->uploadMat4("u_model", model);
-			TPShader->uploadInt("u_texData", 0);
+			BPShader->uploadMat4("model", n_Model);
+			BPShader->uploadMat4("view", view);
+			BPShader->uploadMat4("projection", projection);
+			BPShader->uploadFloat3("objCol", cubeCol);
+			BPShader->uploadFloat3("dirLightCol", dirLightCol);
+			BPShader->uploadFloat3("dirLightPos", dirLightPos);
+			BPShader->uploadFloat4("tint", tint);
+			BPShader->uploadFloat3("camPos", camPos);
 
 			glDrawElements(GL_TRIANGLES, 6 * 6, GL_UNSIGNED_INT, nullptr);
-			//glDrawElements(GL_LINES, 6 * 6, GL_UNSIGNED_INT, nullptr);
+
+			// Pyramid
+			glBindVertexArray(pyramidVAO);
+			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pyramidIBO);
+
+			n_Model = glm::translate(model, glm::vec3(2.f, 0.f, -2.f));
+
+			BPShader->uploadMat4("model", n_Model);
+			BPShader->uploadFloat3("objCol", pyramidCol);
+
+			glDrawElements(GL_TRIANGLES, 3 * 6, GL_UNSIGNED_INT, nullptr);
 
 			m_window->onUpdate(timestep);
 

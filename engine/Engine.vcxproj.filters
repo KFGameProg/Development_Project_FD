@@ -117,6 +117,9 @@
     <ClInclude Include="enginecode\include\independent\rendering\bufferLayout.h">
       <Filter>enginecode\include\independent\rendering</Filter>
     </ClInclude>
+    <ClInclude Include="enginecode\include\independent\rendering\normalMapper.h">
+      <Filter>enginecode\include\independent\rendering</Filter>
+    </ClInclude>
     <ClInclude Include="enginecode\include\independent\rendering\objects\cube.h">
       <Filter>enginecode\include\independent\rendering\objects</Filter>
     </ClInclude>
@@ -195,9 +198,6 @@
     <ClInclude Include="precompiled\engine_pch.h">
       <Filter>precompiled</Filter>
     </ClInclude>
-    <ClInclude Include="enginecode\include\independent\rendering\normalMapper.h">
-      <Filter>enginecode\include\independent\rendering</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="enginecode\src\independent\core\application.cpp">
@@ -208,6 +208,9 @@
     </ClCompile>
     <ClCompile Include="enginecode\src\independent\core\timer.cpp">
       <Filter>enginecode\src\independent\core</Filter>
+    </ClCompile>
+    <ClCompile Include="enginecode\src\independent\rendering\normalMapper.cpp">
+      <Filter>enginecode\src\independent\rendering</Filter>
     </ClCompile>
     <ClCompile Include="enginecode\src\independent\rendering\renderAPI.cpp">
       <Filter>enginecode\src\independent\rendering</Filter>
@@ -256,9 +259,6 @@
     </ClCompile>
     <ClCompile Include="precompiled\engine_pch.cpp">
       <Filter>precompiled</Filter>
-    </ClCompile>
-    <ClCompile Include="enginecode\src\independent\rendering\normalMapper.cpp">
-      <Filter>enginecode\src\independent\rendering</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

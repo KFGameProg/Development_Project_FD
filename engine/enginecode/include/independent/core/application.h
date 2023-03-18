@@ -41,8 +41,20 @@ namespace Engine {
 		bool m_running = true; //!< Is the application running?
 		int32_t width = SCR_WIDTH;
 		int32_t height = SCR_HEIGHT;
-		glm::vec3 m_camPos;
-		glm::vec3 m_camFront;
+		// Transform
+		glm::mat4 view;
+		glm::mat4 projection;
+		glm::mat4 model;
+		// Object
+		glm::vec3 cubeCol;
+		glm::vec3 pyramidCol;
+		glm::vec4 tint;
+		// Light
+		glm::vec3 dirLightCol;
+		glm::vec3 dirLightPos;
+		// Camera
+		glm::vec3 camPos;
+		glm::vec3 camFront;
 
 	public:
 		virtual ~Application(); //!< Deconstructor
