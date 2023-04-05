@@ -4,7 +4,6 @@ C:\3rd Year\Development Project\Development_Project_FD\vendor\Glad\include\glad\
 C:\3rd Year\Development Project\Development_Project_FD\engine\enginecode\include\platform\GLFW\GLFWsystems.h(18,1): warning C4551: function call missing argument list
 C:\3rd Year\Development Project\Development_Project_FD\engine\enginecode\include\independent\systems\inputHandler.h(48,34): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
 C:\3rd Year\Development Project\Development_Project_FD\engine\enginecode\include\independent\systems\inputHandler.h(49,35): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\3rd Year\Development Project\Development_Project_FD\engine\enginecode\include\independent\rendering\objects\cube.h(37,6): warning C4305: 'initializing': truncation from 'double' to 'float'
 C:\3rd Year\Development Project\Development_Project_FD\engine\enginecode\include\platform\OpenGL\OpenGLTexture.h(18,59): warning C4244: 'return': conversion from 'float' to 'uint32_t', possible loss of data
 C:\3rd Year\Development Project\Development_Project_FD\engine\enginecode\include\platform\OpenGL\OpenGLTexture.h(19,60): warning C4244: 'return': conversion from 'float' to 'uint32_t', possible loss of data
   Engine.vcxproj -> C:\3rd Year\Development Project\Development_Project_FD\engine\..\bin\Debug-windows\Engine\Engine.lib

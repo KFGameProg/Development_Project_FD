@@ -3,6 +3,7 @@
 #include "engine_pch.h"
 #include <glad/glad.h>
 #include <stb_image.h>
+#include <fstream>
 #include "platform/OpenGL/OpenGLTexture.h"
 #include "core/log.h"
 
@@ -15,6 +16,19 @@ namespace Engine
 		unsigned char* data = stbi_load(filepath, &width, &height, &channels, 0);
 		
 		if (data) init(width, height, channels, data, slot);
+
+		std::string line, filePath;
+		std::fstream handle(filepath, std::ios::in);
+		if (handle.is_open())
+		{
+			while (getline(handle, line)) { filePath += (line + "\n"); }
+		}
+		else
+		{
+			Log::error("Could not open Texture: {0}", filepath);
+			return;
+		}
+		handle.close();
 
 		stbi_image_free(data);
 	}
@@ -56,7 +70,8 @@ namespace Engine
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		
-		if (channels == 3) glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+		if (channels == 1) glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, width, height, 0, GL_RED, GL_UNSIGNED_BYTE, data);
+		else if (channels == 3) glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
 		else if (channels == 4) glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		else return;
 		glGenerateMipmap(GL_TEXTURE_2D);

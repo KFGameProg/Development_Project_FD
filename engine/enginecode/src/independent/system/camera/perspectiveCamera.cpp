@@ -40,6 +40,11 @@ namespace Engine
 			velocity = (m_speed * dt) * 4;
 		}
 
+		if (InputPoller::keyPressed(NG_KEY_R)) {
+			m_position = glm::vec3(0.f, 1.f, 6.f);
+			m_front = glm::vec3(0.f, 0.f, -1.f);
+		}
+
 		if (InputPoller::keyPressed(NG_KEY_W)) {
 			m_position += m_front * velocity;
 		}
@@ -59,9 +64,10 @@ namespace Engine
 			m_position -= m_up * velocity;
 		}
 
-		look(m_handler->getMouseDeltaX(), m_handler->getMouseDeltaY());
-		//look(InputPoller::getMouseX(), InputPoller::getMouseY());
-		//zoom(m_handler->getMouseScrollY());
+		if (InputPoller::mouseButtonPressed(NG_MOUSE_BUTTON_1)) {
+			look(m_handler->getMouseDeltaX(), m_handler->getMouseDeltaY());
+		};
+		zoom(m_handler->getMouseScrollY());
 		
 		m_handler->endFrame();
 	}
@@ -95,9 +101,7 @@ namespace Engine
 		m_yaw += offsetX;
 		m_pitch += offsetY;
 
-		//std::clamp(m_pitch, -m_pitchContrain, m_pitchContrain);
-		if (m_pitch > m_pitchContrain) m_pitch = m_pitchContrain;
-		if (m_pitch < -m_pitchContrain) m_pitch = -m_pitchContrain;
+		std::clamp(m_pitch, -m_pitchContrain, m_pitchContrain);
 
 		updateCameraVectors();
 	}

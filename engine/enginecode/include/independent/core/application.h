@@ -41,20 +41,21 @@ namespace Engine {
 		bool m_running = true; //!< Is the application running?
 		int32_t width = SCR_WIDTH;
 		int32_t height = SCR_HEIGHT;
+		// Buffers
+		uint32_t cubeVAO, cubeVBO, cubeIBO, pyramidVAO, pyramidVBO, pyramidIBO;
 		// Transform
-		glm::mat4 view;
-		glm::mat4 projection;
-		glm::mat4 model;
+		glm::mat4 view, projection, model[3];
 		// Object
-		glm::vec3 cubeCol;
-		glm::vec3 pyramidCol;
+		glm::vec3 cubeCol, pyramidCol;
 		glm::vec4 tint;
 		// Light
-		glm::vec3 dirLightCol;
-		glm::vec3 dirLightPos;
+		glm::vec3 dirLightCol, dirLightPos;
 		// Camera
-		glm::vec3 camPos;
-		glm::vec3 camFront;
+		glm::vec3 camPos, camFront;
+
+		// Textures
+		unsigned int m_diffTex, m_normMap, m_specMap;	// Metal Sheet
+
 
 	public:
 		virtual ~Application(); //!< Deconstructor
@@ -72,6 +73,9 @@ namespace Engine {
 		bool onMouseScroll(MouseScrolledEvent& e);	//!< On Mouse Wheel Scrolled Event
 		
 		void run(); //!< Main loop
+
+		void createBuffers();
+		unsigned int loadTexture(const char* path);
 	};
 
 	// To be defined in users code

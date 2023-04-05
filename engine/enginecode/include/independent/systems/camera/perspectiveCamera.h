@@ -9,7 +9,7 @@ namespace Engine
 	class PerspectiveCamera : public Camera
 	{
 	public:
-		PerspectiveCamera(glm::vec3 pos = glm::vec3(0.f, 0.f, 2.f));
+		PerspectiveCamera(glm::vec3 pos = glm::vec3(0.f, 1.f, 6.f));
 
 		glm::mat4 getViewMatrix() override;
 		glm::mat4 getProjectionMatrix() override;

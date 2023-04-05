@@ -136,7 +136,8 @@ namespace Engine {
 				onMouseMove(e);
 			}
 		);
-
+		glfwSetInputMode(m_native, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		
 		glfwSetScrollCallback(m_native,
 			[](GLFWwindow* window, double xOffset, double yOffset)
 			{
