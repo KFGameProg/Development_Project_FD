@@ -1,9 +1,76 @@
-﻿  application.cpp
+﻿  engine_pch.cpp
+  application.cpp
 C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
-C:\3rd Year\Development Project\Development_Project_FD\vendor\Glad\include\glad\glad.h(32): message : see previous definition of 'APIENTRY'
-C:\3rd Year\Development Project\Development_Project_FD\engine\enginecode\include\platform\GLFW\GLFWsystems.h(18,1): warning C4551: function call missing argument list
-C:\3rd Year\Development Project\Development_Project_FD\engine\enginecode\include\independent\systems\inputHandler.h(48,34): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\3rd Year\Development Project\Development_Project_FD\engine\enginecode\include\independent\systems\inputHandler.h(49,35): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
-C:\3rd Year\Development Project\Development_Project_FD\engine\enginecode\include\platform\OpenGL\OpenGLTexture.h(18,59): warning C4244: 'return': conversion from 'float' to 'uint32_t', possible loss of data
-C:\3rd Year\Development Project\Development_Project_FD\engine\enginecode\include\platform\OpenGL\OpenGLTexture.h(19,60): warning C4244: 'return': conversion from 'float' to 'uint32_t', possible loss of data
-  Engine.vcxproj -> C:\3rd Year\Development Project\Development_Project_FD\engine\..\bin\Debug-windows\Engine\Engine.lib
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\vendor\Glad\include\glad\glad.h(32): message : see previous definition of 'APIENTRY'
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\enginecode\include\platform\GLFW\GLFWsystems.h(18,1): warning C4551: function call missing argument list
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\enginecode\include\independent\systems\inputHandler.h(48,34): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\enginecode\include\independent\systems\inputHandler.h(49,35): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\enginecode\include\platform\OpenGL\OpenGLTexture.h(18,59): warning C4244: 'return': conversion from 'float' to 'uint32_t', possible loss of data
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\enginecode\include\platform\OpenGL\OpenGLTexture.h(19,60): warning C4244: 'return': conversion from 'float' to 'uint32_t', possible loss of data
+  log.cpp
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\enginecode\src\independent\core\log.cpp(19,8): warning C4101: 'time': unreferenced local variable
+  timer.cpp
+  normalMapper.cpp
+  renderAPI.cpp
+  renderer2D.cpp
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\enginecode\include\platform\OpenGL\OpenGLTexture.h(18,59): warning C4244: 'return': conversion from 'float' to 'uint32_t', possible loss of data
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\enginecode\include\platform\OpenGL\OpenGLTexture.h(19,60): warning C4244: 'return': conversion from 'float' to 'uint32_t', possible loss of data
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\vendor\Glad\include\glad\glad.h(32): message : see previous definition of 'APIENTRY'
+  renderer3D.cpp
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\enginecode\include\platform\OpenGL\OpenGLTexture.h(18,59): warning C4244: 'return': conversion from 'float' to 'uint32_t', possible loss of data
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\enginecode\include\platform\OpenGL\OpenGLTexture.h(19,60): warning C4244: 'return': conversion from 'float' to 'uint32_t', possible loss of data
+  perspectiveCamera.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\vendor\Glad\include\glad\glad.h(32): message : see previous definition of 'APIENTRY'
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\enginecode\include\independent\systems\inputHandler.h(48,34): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\enginecode\include\independent\systems\inputHandler.h(49,35): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\enginecode\src\independent\system\camera\perspectiveCamera.cpp(104,8): warning C4834: discarding return value of function with 'nodiscard' attribute
+  inputHandler.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\vendor\Glad\include\glad\glad.h(32): message : see previous definition of 'APIENTRY'
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\enginecode\include\independent\systems\inputHandler.h(48,34): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\enginecode\include\independent\systems\inputHandler.h(49,35): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+  inputPoller.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\vendor\glfw\include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\enginecode\include\platform\GLFW\GLFWsystems.h(18,1): warning C4551: function call missing argument list
+  stb_image.cpp
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\enginecode\src\independent\system\stb_image.cpp(1): warning C4603: 'STB_IMAGE_IMPLEMENTATION': macro is not defined or definition is different after precompiled header use
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\enginecode\src\independent\system\stb_image.cpp(1): message : Add macro to precompiled header instead of defining here
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\enginecode\src\independent\system\stb_image.cpp(3): message : use of precompiled header
+  GLFWInputPoller.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\vendor\glfw\include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\enginecode\include\platform\GLFW\GLFWsystems.h(18,1): warning C4551: function call missing argument list
+  GLFW_OpenGL_GC.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\vendor\Glad\include\glad\glad.h(32): message : see previous definition of 'APIENTRY'
+  GLFWgraphics.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\vendor\Glad\include\glad\glad.h(32): message : see previous definition of 'APIENTRY'
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\enginecode\include\platform\GLFW\GLFWsystems.h(18,1): warning C4551: function call missing argument list
+  GLFWwindow.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\vendor\glfw\include\GLFW\glfw3.h(123): message : see previous definition of 'APIENTRY'
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\enginecode\include\platform\GLFW\GLFWsystems.h(18,1): warning C4551: function call missing argument list
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\enginecode\src\platform\GLFW\GLFWwindow.cpp(135,26): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\enginecode\src\platform\GLFW\GLFWwindow.cpp(135,23): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\enginecode\src\platform\GLFW\GLFWwindow.cpp(147,35): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\enginecode\src\platform\GLFW\GLFWwindow.cpp(147,26): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  OpenGLIndexBuffer.cpp
+  OpenGLShader.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\vendor\Glad\include\glad\glad.h(32): message : see previous definition of 'APIENTRY'
+  OpenGLTexture.cpp
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\enginecode\include\platform\OpenGL\OpenGLTexture.h(18,59): warning C4244: 'return': conversion from 'float' to 'uint32_t', possible loss of data
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\enginecode\include\platform\OpenGL\OpenGLTexture.h(19,60): warning C4244: 'return': conversion from 'float' to 'uint32_t', possible loss of data
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\vendor\Glad\include\glad\glad.h(32): message : see previous definition of 'APIENTRY'
+  OpenGLVertexArray.cpp
+C:\Program Files (x86)\Windows Kits\10\Include\10.0.18362.0\shared\minwindef.h(130,1): warning C4005: 'APIENTRY': macro redefinition
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\vendor\Glad\include\glad\glad.h(32): message : see previous definition of 'APIENTRY'
+C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\enginecode\src\platform\OpenGL\OpenGLVertexArray.cpp(42,29): warning C4312: 'type cast': conversion from 'const uint32_t' to 'void *' of greater size
+  OpenGLVertexBuffer.cpp
+  Generating Code...
+  Engine.vcxproj -> C:\Users\Kieran\OneDrive - De Montfort University\Development Project\Development_Project_FD\engine\..\bin\Debug-windows\Engine\Engine.lib
