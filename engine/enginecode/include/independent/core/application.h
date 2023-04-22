@@ -13,6 +13,7 @@
 #include "independent/rendering/normalMapper.h"
 #include "independent/rendering/objects/cube.h"
 #include "independent/rendering/objects/pyramid.h"
+#include "independent/rendering/Utilities/grid.h"
 
 namespace Engine {
 
@@ -30,6 +31,7 @@ namespace Engine {
 		std::shared_ptr<Timer> m_timer;		//!< Timer
 		std::shared_ptr<GLFWSystem> m_GLFWsys;	//!< GLFW initialise and terminate system
 		std::shared_ptr<Window> m_window;	//!< Window
+		std::shared_ptr<Grid> m_grid;
 		GLFWwindow* m_win;
 		std::shared_ptr<InputHandler> m_handler;
 		PerspectiveCamera* m_cam;
@@ -42,9 +44,9 @@ namespace Engine {
 		int32_t width = SCR_WIDTH;
 		int32_t height = SCR_HEIGHT;
 		// Buffers
-		uint32_t cubeVAO, cubeVBO, cubeIBO, pyramidVAO, pyramidVBO, pyramidIBO;
+		uint32_t gridVAO, gridVBO, cubeVAO, cubeVBO, cubeIBO, pyramidVAO, pyramidVBO, pyramidIBO;
 		// Transform
-		glm::mat4 view, projection, model[3];
+		glm::mat4 view, projection, model[4];
 		// Object
 		glm::vec3 cubeCol, pyramidCol;
 		glm::vec4 tint;

@@ -30,6 +30,8 @@ namespace Engine {
 		m_cam = new PerspectiveCamera();
 		m_cam->attachHandler(m_win, m_handler);
 
+		m_grid = std::make_shared<Grid>();
+
 		o_cube = new Cube();
 		o_pyramid = new Pyramid();
 
@@ -184,6 +186,9 @@ namespace Engine {
 		std::shared_ptr<OpenGLShader> BPShader;
 		BPShader.reset(new OpenGLShader("..\\assets\\shaders\\lightingShader.vert", "..\\assets\\shaders\\lightingShader.frag"));
 
+		std::shared_ptr<OpenGLShader> TessShader;
+		TessShader.reset(new OpenGLShader("..\\assets\\shaders\\tessVertShader.vert", "..\\assets\\shaders\\tessFragShader.frag", "..\\assets\\shaders\\Norms.gs", "..\\assets\\shaders\\tessCtrl.tcs", "..\\assets\\shaders\\tessEval.tes"));
+
 		std::shared_ptr<OpenGLShader> TPShader;
 		TPShader.reset(new OpenGLShader("..\\assets\\shaders\\texturePhong.vert", "..\\assets\\shaders\\texturePhong.frag"));
 
@@ -235,9 +240,10 @@ namespace Engine {
 //**********************************Scene Attributes**********************************
 		// Transforms
 		projection = m_cam->getProjectionMatrix();
-		model[0] = glm::mat4(1.0f);
-		model[1] = glm::translate(model[0], glm::vec3(-2.f, 0.f, -2.f));
-		model[2] = glm::translate(model[0], glm::vec3(2.f, 0.f, -2.f));
+		model[0] = glm::mat4(1.f);
+		model[1] = glm::translate(model[0], glm::vec3(-15.f, 0.f, -15.f));
+		model[2] = glm::translate(model[0], glm::vec3(-2.f, 1.f, -2.f));
+		model[3] = glm::translate(model[0], glm::vec3(2.f, 1.f, -2.f));
 		// Object
 		cubeCol = glm::vec3(1.0, 0.0, 1.0);
 		pyramidCol = glm::vec3(0.f, 0.f, 0.f);
@@ -270,25 +276,35 @@ namespace Engine {
 			m_handler->MouseScroll(m_handler->getMouseScrollX(), m_handler->getMouseScrollY());
 
 			//**************************OpenGL Draw**********************************
+			glUseProgram(TessShader->getID());
+
+			// Grid
+			glBindVertexArray(gridVAO);
+
+			TessShader->uploadMat4("model", model[1]);
+			TessShader->uploadMat4("view", view);
+			TessShader->uploadMat4("projection", projection);
+			TessShader->uploadFloat3("camPos", camPos);
+
+			glDrawArrays(GL_LINES, 0, m_grid->getSize());
+
 			glUseProgram(BPShader->getID());
-			
-			//glBindTexture(GL_TEXTURE_2D, plainWhiteTex->getID());
 			
 			// Cube
 			BPShader->uploadInt("diffuseTexture", 0);
 			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, metalDiffuseTex->getID());
+			glBindTexture(GL_TEXTURE_2D, stoneDiffuseTex->getID());
 			BPShader->uploadInt("specularMap", 1);
 			glActiveTexture(GL_TEXTURE1);
-			glBindTexture(GL_TEXTURE_2D, metalSpecularTex->getID());
+			glBindTexture(GL_TEXTURE_2D, stoneSpecularTex->getID());
 			BPShader->uploadInt("normalMap", 2);
 			glActiveTexture(GL_TEXTURE2);
-			glBindTexture(GL_TEXTURE_2D, metalNormalTex->getID());
+			glBindTexture(GL_TEXTURE_2D, stoneNormalTex->getID());
 
 			glBindVertexArray(cubeVAO);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cubeIBO);
 
-			BPShader->uploadMat4("model", model[1]);
+			BPShader->uploadMat4("model", model[2]);
 			BPShader->uploadMat4("view", view);
 			BPShader->uploadMat4("projection", projection);
 			BPShader->uploadFloat3("objCol", cubeCol);
@@ -297,13 +313,13 @@ namespace Engine {
 			BPShader->uploadFloat4("tint", tint);
 			BPShader->uploadFloat3("camPos", camPos);
 
-			glDrawElements(GL_TRIANGLES, 6 * 6, GL_UNSIGNED_INT, nullptr);
+			glDrawElements(GL_TRIANGLES, 3 * 12, GL_UNSIGNED_INT, nullptr);
 
 			// Pyramid
 			glBindVertexArray(pyramidVAO);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pyramidIBO);
 
-			BPShader->uploadMat4("model", model[2]);
+			BPShader->uploadMat4("model", model[3]);
 			BPShader->uploadFloat3("objCol", pyramidCol);
 
 			glDrawElements(GL_TRIANGLES, 3 * 6, GL_UNSIGNED_INT, nullptr);
@@ -313,6 +329,9 @@ namespace Engine {
 			m_timer->reset();
 		};
 		glDisable(GL_DEPTH_TEST);
+
+		glDeleteVertexArrays(1, &gridVAO);
+		glDeleteBuffers(1, &gridVBO);
 
 		glDeleteVertexArrays(1, &cubeVAO);
 		glDeleteBuffers(1, &cubeVBO);
@@ -327,6 +346,23 @@ namespace Engine {
 
 	void Application::createBuffers()
 	{
+		//*****************************************************Grid Vertex Data*******************************************************
+		glCreateVertexArrays(1, &gridVAO);
+		glCreateBuffers(1, &gridVBO);
+		glBindVertexArray(gridVAO);
+		glBindBuffer(GL_ARRAY_BUFFER, gridVBO);
+		glBufferData(GL_ARRAY_BUFFER, (m_grid->getSize() * sizeof(GLfloat)), m_grid->getData(), GL_STATIC_DRAW);
+
+		//xyz
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+		glEnableVertexAttribArray(0);
+		//texture
+		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+		glEnableVertexAttribArray(1);
+
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindVertexArray(0);
+
 		//*****************************************************Cube Vertex Data*******************************************************
 		glCreateVertexArrays(1, &cubeVAO);
 		glBindVertexArray(cubeVAO);
@@ -402,5 +438,4 @@ namespace Engine {
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
-
 }

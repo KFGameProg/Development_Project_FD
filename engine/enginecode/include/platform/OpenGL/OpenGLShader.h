@@ -8,7 +8,7 @@ namespace Engine
 	class OpenGLShader
 	{
 	public:
-		OpenGLShader(const char* vertexFilepath, const char* fragmentFilepath);
+		OpenGLShader(const char* vertexFilepath, const char* fragmentFilepath, const char* geoPath = nullptr, const char* tessCtrlPath = nullptr, const char* tessEvalPath = nullptr);
 		OpenGLShader(const char* filepath);
 		~OpenGLShader();
 		uint32_t getID() { return m_OpenGL_ID; }	//!< Get render ID
@@ -23,6 +23,6 @@ namespace Engine
 
 	private:
 		uint32_t m_OpenGL_ID;
-		void compileAndLink(const char* vertexShaderSrc, const char* fragmentShaderSrc);
+		void compileAndLink(const char* vertexShaderSrc, const char* fragmentShaderSrc, const char* geoFilepath = nullptr, const char* tessCtrlFilepath = nullptr, const char* tessEvalFilepath = nullptr);
 	};
 }

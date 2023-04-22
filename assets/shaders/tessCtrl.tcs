@@ -1,0 +1,51 @@
+#version 450 core
+layout (vertices = 3) out;
+
+float GetTessLevel(float Distance0, float Distance1) ;
+
+in vec3 posWS[];
+in vec2 uv[];
+in vec3 camera[];
+
+out vec3 posCS[];
+out vec2 uvCS[];
+
+void main()
+{
+   int tessLevel = 10;
+
+   float camToVertexDist0 = distance(camera[0], posWS[0]);
+   float camToVertexDist1 = distance(camera[0], posWS[1]);
+   float camToVertexDist2 = distance(camera[0], posWS[2]);
+
+   if (gl_InvocationID == 0)
+   {
+        gl_TessLevelOuter[0] = GetTessLevel(camToVertexDist1, camToVertexDist2);
+        gl_TessLevelOuter[1] = GetTessLevel(camToVertexDist2, camToVertexDist0);
+        gl_TessLevelOuter[2] = GetTessLevel(camToVertexDist0, camToVertexDist1);
+        gl_TessLevelInner[0] = GetTessLevel(camToVertexDist0, camToVertexDist1);
+   }
+
+   posCS[gl_InvocationID] = posWS[gl_InvocationID];
+   uvCS[gl_InvocationID] = uv[gl_InvocationID];
+}
+
+ float GetTessLevel(float Distance0, float Distance1)
+ {
+    float AvgDistance = (Distance0 + Distance1) / 2.0;
+	 if (AvgDistance <= 150.0) {
+        return 100.0;
+    }else if (AvgDistance <= 180.0) {
+        return 10.0;
+    }
+	else if (AvgDistance <= 270.0) {
+        return 3.0;
+    }
+	else if (AvgDistance <= 300.0) {
+        return 2.0;
+    }
+    else{
+        return 1.0;
+    }
+}
+

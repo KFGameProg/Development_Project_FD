@@ -1,0 +1,33 @@
+#version 450 core
+layout(triangles, equal_spacing, ccw) in;
+
+vec2 interpolate2D(vec2 v0, vec2 v1, vec2 v2);
+vec3 interpolate3D(vec3 v0, vec3 v1, vec3 v2);
+
+uniform mat4 model;
+uniform mat4 view;
+uniform mat4 projection;
+
+in vec3 posCS[];
+in vec2 uvCS[];
+
+out vec3 posES;
+out vec2 uvES;
+
+void main()
+{
+    posES = interpolate3D(posCS[0], posCS[1], posCS[2]);
+    uvES = interpolate2D(uvCS[0], uvCS[1], uvCS[2]);
+
+    gl_Position = projection * view * vec4(FragPosES, 1.0);
+} 
+
+vec2 interpolate2D(vec2 v0, vec2 v1, vec2 v2)
+{
+    return vec2(gl_TessCoord.x) * v0 + vec2(gl_TessCoord.y) * v1 + vec2(gl_TessCoord.z) * v2;
+}
+
+vec3 interpolate3D(vec3 v0, vec3 v1, vec3 v2)
+{
+    return vec3(gl_TessCoord.x) * v0 + vec3(gl_TessCoord.y) * v1 + vec3(gl_TessCoord.z) * v2;
+}

@@ -109,12 +109,14 @@
     <ClInclude Include="enginecode\include\independent\rendering\normalMapper.h" />
     <ClInclude Include="enginecode\include\independent\rendering\objects\cube.h" />
     <ClInclude Include="enginecode\include\independent\rendering\objects\object.h" />
+    <ClInclude Include="enginecode\include\independent\rendering\objects\plane.h" />
     <ClInclude Include="enginecode\include\independent\rendering\objects\pyramid.h" />
     <ClInclude Include="enginecode\include\independent\rendering\renderAPI.h" />
     <ClInclude Include="enginecode\include\independent\rendering\renderer2D.h" />
     <ClInclude Include="enginecode\include\independent\rendering\renderer3D.h" />
     <ClInclude Include="enginecode\include\independent\rendering\rendererCommon.h" />
     <ClInclude Include="enginecode\include\independent\rendering\shaderDataType.h" />
+    <ClInclude Include="enginecode\include\independent\rendering\Utilities\grid.h" />
     <ClInclude Include="enginecode\include\independent\systems\camera\camera.h" />
     <ClInclude Include="enginecode\include\independent\systems\camera\perspectiveCamera.h" />
     <ClInclude Include="enginecode\include\independent\systems\inputHandler.h" />
@@ -144,6 +146,7 @@
     <ClCompile Include="enginecode\src\independent\rendering\renderAPI.cpp" />
     <ClCompile Include="enginecode\src\independent\rendering\renderer2D.cpp" />
     <ClCompile Include="enginecode\src\independent\rendering\renderer3D.cpp" />
+    <ClCompile Include="enginecode\src\independent\rendering\Utilities\grid.cpp" />
     <ClCompile Include="enginecode\src\independent\system\camera\perspectiveCamera.cpp" />
     <ClCompile Include="enginecode\src\independent\system\inputHandler.cpp" />
     <ClCompile Include="enginecode\src\independent\system\inputPoller.cpp" />
