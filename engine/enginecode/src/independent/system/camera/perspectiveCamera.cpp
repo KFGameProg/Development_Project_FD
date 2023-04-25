@@ -64,7 +64,7 @@ namespace Engine
 			m_position -= m_up * velocity;
 		}
 
-		if (InputPoller::mouseButtonPressed(NG_MOUSE_BUTTON_1)) {
+		if (InputPoller::mouseButtonPressed(NG_MOUSE_BUTTON_2)) {
 			look(m_handler->getMouseDeltaX(), m_handler->getMouseDeltaY());
 		};
 		zoom(m_handler->getMouseScrollY());

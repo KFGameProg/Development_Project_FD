@@ -2,8 +2,8 @@
 layout(triangles) in ;
 layout(triangle_strip, max_vertices = 3) out ;
 
-in vec3 posES;
-in vec2 uvES;
+in vec3 posES[];
+in vec2 uvES[];
 
 out vec3 posGS;
 out vec2 uvGS;

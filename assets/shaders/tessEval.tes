@@ -19,7 +19,7 @@ void main()
     posES = interpolate3D(posCS[0], posCS[1], posCS[2]);
     uvES = interpolate2D(uvCS[0], uvCS[1], uvCS[2]);
 
-    gl_Position = projection * view * vec4(FragPosES, 1.0);
+    gl_Position = projection * view * vec4(posES, 1.0);
 } 
 
 vec2 interpolate2D(vec2 v0, vec2 v1, vec2 v2)

@@ -5,7 +5,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <iostream>
 
-#include "events/eventHandler.h"
 #include "systems/inputHandler.h"
 #include "systems/properties.h"
 #include "platform/GLFW/GLFWCodes.h"

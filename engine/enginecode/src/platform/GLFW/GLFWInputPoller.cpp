@@ -30,6 +30,17 @@ namespace Engine
 		}
 		return false;
 	}
+
+	bool GLFWInputPoller::mouseButtonReleased(int32_t button)
+	{
+		if (s_window)
+		{
+			auto answer = glfwGetMouseButton(s_window, button);
+			return answer == GLFW_RELEASE;
+		}
+		return false;
+	}
+
 	glm::vec2 GLFWInputPoller::getMousePos()
 	{
 		if (s_window)

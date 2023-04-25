@@ -12,8 +12,6 @@ out vec2 uvCS[];
 
 void main()
 {
-   int tessLevel = 10;
-
    float camToVertexDist0 = distance(camera[0], posWS[0]);
    float camToVertexDist1 = distance(camera[0], posWS[1]);
    float camToVertexDist2 = distance(camera[0], posWS[2]);
@@ -30,19 +28,14 @@ void main()
    uvCS[gl_InvocationID] = uv[gl_InvocationID];
 }
 
- float GetTessLevel(float Distance0, float Distance1)
- {
+float GetTessLevel(float Distance0, float Distance1)
+{
     float AvgDistance = (Distance0 + Distance1) / 2.0;
-	 if (AvgDistance <= 150.0) {
-        return 100.0;
-    }else if (AvgDistance <= 180.0) {
+	if (AvgDistance <= 5.0) {
         return 10.0;
     }
-	else if (AvgDistance <= 270.0) {
-        return 3.0;
-    }
-	else if (AvgDistance <= 300.0) {
-        return 2.0;
+    else if (AvgDistance <= 10.0) {
+        return 5.0;
     }
     else{
         return 1.0;

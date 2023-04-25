@@ -13,6 +13,7 @@ namespace Engine {
 	public:
 		static bool keyPressed(int32_t key); //!< Whether specified key is called
 		static bool mouseButtonPressed(int32_t button); //!< Whether mouse button is pressed 
+		static bool mouseButtonReleased(int32_t button); //!< Whether mouse button is released 
 		static glm::vec2 getMousePos(); //!< function to determine mouse position
 		static void setNativeWindow(void* nativeWindow);
 		inline static float getMouseX() { return getMousePos().x; } //!< Returns x position of mouse

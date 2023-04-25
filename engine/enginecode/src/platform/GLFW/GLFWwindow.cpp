@@ -136,7 +136,7 @@ namespace Engine {
 				onMouseMove(e);
 			}
 		);
-		glfwSetInputMode(m_native, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		//glfwSetInputMode(m_native, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 		
 		glfwSetScrollCallback(m_native,
 			[](GLFWwindow* window, double xOffset, double yOffset)
@@ -159,6 +159,13 @@ namespace Engine {
 	{
 		glfwPollEvents();
 		m_context->swapBuffers();
+
+		if (InputPoller::mouseButtonPressed(NG_MOUSE_BUTTON_2)) {
+			glfwSetInputMode(m_native, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+		}
+		else if (InputPoller::mouseButtonReleased(NG_MOUSE_BUTTON_2)) {
+			glfwSetInputMode(m_native, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		}
 	}
 
 	void GLFWwindowImpl::onResize(unsigned int width, unsigned int height)

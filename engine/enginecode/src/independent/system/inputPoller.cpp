@@ -21,6 +21,11 @@ namespace Engine
 		return GLFWInputPoller::mouseButtonPressed(button);
 	}
 
+	bool InputPoller::mouseButtonReleased(int32_t button)
+	{
+		return GLFWInputPoller::mouseButtonReleased(button);
+	}
+
 	glm::vec2 InputPoller::getMousePos()
 	{
 		return GLFWInputPoller::getMousePos();

@@ -14,9 +14,9 @@ uniform vec3 camPos;
 
 void main()
 {
-	gl_Position = projection * view * model * vec4(aPos,1.0);
-
 	posWS = vec3(model * vec4(aPos, 1.0)).xyz;
 	uv = vec2(aUV.x, aUV.y);
 	camera = camPos;
+
+	gl_Position = model * vec4(aPos,1.0);
 }

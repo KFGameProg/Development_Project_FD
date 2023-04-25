@@ -188,7 +188,7 @@ namespace Engine {
 
 		std::shared_ptr<OpenGLShader> TessShader;
 		TessShader.reset(new OpenGLShader("..\\assets\\shaders\\tessVertShader.vert", "..\\assets\\shaders\\tessFragShader.frag", "..\\assets\\shaders\\Norms.gs", "..\\assets\\shaders\\tessCtrl.tcs", "..\\assets\\shaders\\tessEval.tes"));
-
+		
 		std::shared_ptr<OpenGLShader> TPShader;
 		TPShader.reset(new OpenGLShader("..\\assets\\shaders\\texturePhong.vert", "..\\assets\\shaders\\texturePhong.frag"));
 
@@ -286,7 +286,8 @@ namespace Engine {
 			TessShader->uploadMat4("projection", projection);
 			TessShader->uploadFloat3("camPos", camPos);
 
-			glDrawArrays(GL_LINES, 0, m_grid->getSize());
+			glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+			glDrawArrays(GL_PATCHES, 0, m_grid->getSize());
 
 			glUseProgram(BPShader->getID());
 			
@@ -300,7 +301,7 @@ namespace Engine {
 			BPShader->uploadInt("normalMap", 2);
 			glActiveTexture(GL_TEXTURE2);
 			glBindTexture(GL_TEXTURE_2D, stoneNormalTex->getID());
-
+			
 			glBindVertexArray(cubeVAO);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cubeIBO);
 
@@ -313,12 +314,23 @@ namespace Engine {
 			BPShader->uploadFloat4("tint", tint);
 			BPShader->uploadFloat3("camPos", camPos);
 
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			glDrawElements(GL_TRIANGLES, 3 * 12, GL_UNSIGNED_INT, nullptr);
 
 			// Pyramid
+			BPShader->uploadInt("diffuseTexture", 0);
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, metalDiffuseTex->getID());
+			BPShader->uploadInt("specularMap", 1);
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_2D, metalSpecularTex->getID());
+			BPShader->uploadInt("normalMap", 2);
+			glActiveTexture(GL_TEXTURE2);
+			glBindTexture(GL_TEXTURE_2D, metalNormalTex->getID());
+			
 			glBindVertexArray(pyramidVAO);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pyramidIBO);
-
+			
 			BPShader->uploadMat4("model", model[3]);
 			BPShader->uploadFloat3("objCol", pyramidCol);
 

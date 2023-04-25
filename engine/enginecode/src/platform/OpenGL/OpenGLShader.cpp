@@ -14,80 +14,141 @@ namespace Engine
 	//!< Set and Read shaders
 	OpenGLShader::OpenGLShader(const char* vertexFilepath, const char* fragmentFilepath, const char* geoFilepath, const char* tessCtrlFilepath, const char* tessEvalFilepath)
 	{
-		std::string line, vertexSrc, fragmentSrc, geometrySrc, tessControlSrc, tessEvaluationSrc;
+		// 1. retrieve the vertex/fragment source code from filePath
+		std::string vertexCode;
+		std::string fragmentCode;
+		std::string geoCode;
+		std::string tessCcode;
+		std::string tessEcode;
 
-		// Vertex
-		std::fstream handle(vertexFilepath, std::ios::in);
-		if (handle.is_open())
+		std::ifstream vShaderFile;
+		std::ifstream fShaderFile;
+		std::ifstream gShaderFile;
+		std::ifstream tcShaderFile;
+		std::ifstream teShaderFile;
+
+		// ensure ifstream objects can throw exceptions:
+		vShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+		fShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+		gShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+		tcShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+		teShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
+
+		try
 		{
-			while (getline(handle, line)) { vertexSrc += (line + "\n"); }
+			// open files
+			vShaderFile.open(vertexFilepath);
+			fShaderFile.open(fragmentFilepath);
+			std::stringstream vShaderStream, fShaderStream;
+			// read file's buffer contents into streams
+			vShaderStream << vShaderFile.rdbuf();
+			fShaderStream << fShaderFile.rdbuf();
+			// close file handlers
+			vShaderFile.close();
+			fShaderFile.close();
+			// convert stream into string
+			vertexCode = vShaderStream.str();
+			fragmentCode = fShaderStream.str();
+
+			if (geoFilepath != nullptr)
+			{
+				gShaderFile.open(geoFilepath);
+				std::stringstream gShaderStream;
+				gShaderStream << gShaderFile.rdbuf();
+				gShaderFile.close();
+				geoCode = gShaderStream.str();
+			}
+
+			if (tessCtrlFilepath != nullptr)
+			{
+				tcShaderFile.open(tessCtrlFilepath);
+				std::stringstream tcShaderStream;
+				tcShaderStream << tcShaderFile.rdbuf();
+				tcShaderFile.close();
+				tessCcode = tcShaderStream.str();
+			}
+
+			if (tessEvalFilepath != nullptr)
+			{
+				teShaderFile.open(tessEvalFilepath);
+				std::stringstream teShaderStream;
+				teShaderStream << teShaderFile.rdbuf();
+				teShaderFile.close();
+				tessEcode = teShaderStream.str();
+			}
 		}
-		else
+		catch (std::ifstream::failure e)
 		{
-			Log::error("Could not open Vertex shader: {0}", vertexFilepath);
-			return;
+			Log::error("ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ");
 		}
-		handle.close();
+		const char* vShaderCode = vertexCode.c_str();
+		const char* fShaderCode = fragmentCode.c_str();
 
-		// Fragment
-		handle.open(fragmentFilepath, std::ios::in);
-		if (handle.is_open())
+		// 2. compile shaders
+		unsigned int vertex, fragment;
+		// vertex shader
+		vertex = glCreateShader(GL_VERTEX_SHADER);
+		glShaderSource(vertex, 1, &vShaderCode, NULL);
+		glCompileShader(vertex);
+		checkCompileErrors(vertex, "VERTEX");
+		// fragment Shader
+		fragment = glCreateShader(GL_FRAGMENT_SHADER);
+		glShaderSource(fragment, 1, &fShaderCode, NULL);
+		glCompileShader(fragment);
+		checkCompileErrors(fragment, "FRAGMENT");
+		// geometry Shader
+		unsigned int geometry;
+		if (geoFilepath != nullptr)
 		{
-			while (getline(handle, line)) { fragmentSrc += (line + "\n"); }
+			const char* gShaderCode = geoCode.c_str();
+			geometry = glCreateShader(GL_GEOMETRY_SHADER);
+			glShaderSource(geometry, 1, &gShaderCode, NULL);
+			glCompileShader(geometry);
+			checkCompileErrors(geometry, "GEOMETRY");
 		}
-		else
+		// tessellation Control Shader
+		unsigned int tessControl;
+		if (tessCtrlFilepath != nullptr)
 		{
-			Log::error("Could not open Fragment shader: {0}", fragmentFilepath);
-			return;
+			const char* tcShaderCode = tessCcode.c_str();
+			tessControl = glCreateShader(GL_TESS_CONTROL_SHADER);
+			glShaderSource(tessControl, 1, &tcShaderCode, NULL);
+			glCompileShader(tessControl);
+			checkCompileErrors(tessControl, "TESSELLATION CONTROL");
 		}
-		handle.close();
-
-		// Geometry
-		if (geoFilepath != nullptr) {
-			handle.open(geoFilepath, std::ios::in);
-			if (handle.is_open())
-			{
-				while (getline(handle, line)) { geometrySrc += (line + "\n"); }
-			}
-			else
-			{
-				Log::error("Could not open Geometry shader: {0}", geoFilepath);
-				return;
-			}
-			handle.close();
+		// tessellation Evaluation Shader
+		unsigned int tessEvaluation;
+		if (tessEvalFilepath != nullptr)
+		{
+			const char* teShaderCode = tessEcode.c_str();
+			tessEvaluation = glCreateShader(GL_TESS_EVALUATION_SHADER);
+			glShaderSource(tessEvaluation, 1, &teShaderCode, NULL);
+			glCompileShader(tessEvaluation);
+			checkCompileErrors(tessEvaluation, "TESSELLATION EVALUATION");
 		}
 
-		// Tessellation Control
-		if (tessCtrlFilepath != nullptr) {
-			handle.open(tessCtrlFilepath, std::ios::in);
-			if (handle.is_open())
-			{
-				while (getline(handle, line)) { tessControlSrc += (line + "\n"); }
-			}
-			else
-			{
-				Log::error("Could not open Tessellation Control shader: {0}", tessCtrlFilepath);
-				return;
-			}
-			handle.close();
-		}
+		// shader Program
+		m_OpenGL_ID = glCreateProgram();
+		glAttachShader(m_OpenGL_ID, vertex);
+		glAttachShader(m_OpenGL_ID, fragment);
+		if (geoFilepath != nullptr)
+			glAttachShader(m_OpenGL_ID, geometry);
+		if (tessCtrlFilepath != nullptr)
+			glAttachShader(m_OpenGL_ID, tessControl);
+		if (tessEvalFilepath != nullptr)
+			glAttachShader(m_OpenGL_ID, tessEvaluation);
+		glLinkProgram(m_OpenGL_ID);
+		checkCompileErrors(m_OpenGL_ID, "PROGRAM");
 
-		// Tessellation Evaluation
-		if (tessEvalFilepath != nullptr) {
-			handle.open(tessEvalFilepath, std::ios::in);
-			if (handle.is_open())
-			{
-				while (getline(handle, line)) { tessEvaluationSrc += (line + "\n"); }
-			}
-			else
-			{
-				Log::error("Could not open Tessellation Evaluation shader: {0}", tessEvalFilepath);
-				return;
-			}
-			handle.close();
-		}
-
-		compileAndLink(vertexSrc.c_str(), fragmentSrc.c_str());
+		// delete the shaders as they're linked into our program now and no longer necessery
+		glDeleteShader(vertex);
+		glDeleteShader(fragment);
+		if (geoFilepath != nullptr)
+			glDeleteShader(geometry);
+		if (tessCtrlFilepath != nullptr)
+			glDeleteShader(tessControl);
+		if (tessEvalFilepath != nullptr)
+			glDeleteShader(tessEvaluation);
 	}
 
 	OpenGLShader::OpenGLShader(const char* filepath)
@@ -117,8 +178,6 @@ namespace Engine
 			return;
 		}
 		handle.close();
-
-		compileAndLink(src[Region::Vertex].c_str(), src[Region::Fragment].c_str());
 	}
 
 	OpenGLShader::~OpenGLShader()
@@ -163,234 +222,28 @@ namespace Engine
 		glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(value));
 	}
 
-	void OpenGLShader::compileAndLink(const char* vertexShaderSrc, const char* fragmentShaderSrc, const char* geoFilepath, const char* tessCtrlFilepath, const char* tessEvalFilepath)
+	void OpenGLShader::checkCompileErrors(GLuint shader, std::string type)
 	{
-		// Vertex
-		GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
-
-		const GLchar* source = vertexShaderSrc;
-		glShaderSource(vertexShader, 1, &source, 0);
-		glCompileShader(vertexShader);
-
-		GLint isCompiled = 0;
-		glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &isCompiled);
-		if (isCompiled == GL_FALSE)
+		GLint success;
+		GLchar infoLog[1024];
+		if (type != "PROGRAM")
 		{
-			GLint maxLength = 0;
-			glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &maxLength);
-
-			std::vector<GLchar> infoLog(maxLength);
-			glGetShaderInfoLog(vertexShader, maxLength, &maxLength, &infoLog[0]);
-			Log::error("Shader compile error: {0}", std::string(infoLog.begin(), infoLog.end()));
-
-			glDeleteShader(vertexShader);
-			return;
+			glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
+			if (!success)
+			{
+				glGetShaderInfoLog(shader, 1024, NULL, infoLog);
+				Log::error("ERROR::SHADER_COMPILATION_ERROR of type: {0} \n {1} \n -- --------------------------------------------------- --", type, infoLog);
+				Log::error("PROGRAM_LINKING_ERROR of type: {0} \n {1} \n -- --------------------------------------------------- --", type, infoLog);
+			}
 		}
-
-		// Fragment
-		GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-		source = fragmentShaderSrc;
-		glShaderSource(fragmentShader, 1, &source, 0);
-		glCompileShader(fragmentShader);
-
-		glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &isCompiled);
-		if (isCompiled == GL_FALSE)
+		else
 		{
-			GLint maxLength = 0;
-			glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &maxLength);
-
-			std::vector<GLchar> infoLog(maxLength);
-			glGetShaderInfoLog(fragmentShader, maxLength, &maxLength, &infoLog[0]);
-			Log::error("Shader compile error: {0}", std::string(infoLog.begin(), infoLog.end()));
-
-			glDeleteShader(fragmentShader);
-			glDeleteShader(vertexShader);
-
-			return;
-		}
-
-		m_OpenGL_ID = glCreateProgram();
-		glAttachShader(m_OpenGL_ID, vertexShader);
-		glAttachShader(m_OpenGL_ID, fragmentShader);
-		glLinkProgram(m_OpenGL_ID);
-
-		GLint isLinked = 0;
-		glGetProgramiv(m_OpenGL_ID, GL_LINK_STATUS, (int*)&isLinked);
-		if (isLinked == GL_FALSE)
-		{
-			GLint maxLength = 0;
-			glGetProgramiv(m_OpenGL_ID, GL_INFO_LOG_LENGTH, &maxLength);
-
-			std::vector<GLchar> infoLog(maxLength);
-			glGetProgramInfoLog(m_OpenGL_ID, maxLength, &maxLength, &infoLog[0]);
-			Log::error("Shader linking error: {0}", std::string(infoLog.begin(), infoLog.end()));
-
-			glDeleteProgram(m_OpenGL_ID);
-			glDeleteShader(vertexShader);
-			glDeleteShader(fragmentShader);
-
-			return;
-		}
-		
-		GLuint geometryShader = glCreateShader(GL_GEOMETRY_SHADER);
-		GLuint tessellationCtrlShader = glCreateShader(GL_TESS_CONTROL_SHADER);
-		GLuint tessellationEvalShader = glCreateShader(GL_TESS_EVALUATION_SHADER);
-		
-		// Geometry
-		if (geoFilepath != nullptr) {
-			source = geoFilepath;
-			glShaderSource(geometryShader, 1, &source, 0);
-			glCompileShader(geometryShader);
-
-			glGetShaderiv(geometryShader, GL_COMPILE_STATUS, &isCompiled);
-			if (isCompiled == GL_FALSE)
+			glGetProgramiv(shader, GL_LINK_STATUS, &success);
+			if (!success)
 			{
-				GLint maxLength = 0;
-				glGetShaderiv(geometryShader, GL_INFO_LOG_LENGTH, &maxLength);
-
-				std::vector<GLchar> infoLog(maxLength);
-				glGetShaderInfoLog(geometryShader, maxLength, &maxLength, &infoLog[0]);
-				Log::error("Shader compile error: {0}", std::string(infoLog.begin(), infoLog.end()));
-
-				glDeleteShader(geometryShader);
-				glDeleteShader(fragmentShader);
-				glDeleteShader(vertexShader);
-
-				return;
-			}
-
-			m_OpenGL_ID = glCreateProgram();
-			glAttachShader(m_OpenGL_ID, vertexShader);
-			glAttachShader(m_OpenGL_ID, fragmentShader);
-			glAttachShader(m_OpenGL_ID, geometryShader);
-			glLinkProgram(m_OpenGL_ID);
-
-			GLint isLinked = 0;
-			glGetProgramiv(m_OpenGL_ID, GL_LINK_STATUS, (int*)&isLinked);
-			if (isLinked == GL_FALSE)
-			{
-				GLint maxLength = 0;
-				glGetProgramiv(m_OpenGL_ID, GL_INFO_LOG_LENGTH, &maxLength);
-
-				std::vector<GLchar> infoLog(maxLength);
-				glGetProgramInfoLog(m_OpenGL_ID, maxLength, &maxLength, &infoLog[0]);
-				Log::error("Shader linking error: {0}", std::string(infoLog.begin(), infoLog.end()));
-
-				glDeleteProgram(m_OpenGL_ID);
-				glDeleteShader(vertexShader);
-				glDeleteShader(fragmentShader);
-				glDeleteShader(geometryShader);
-
-				return;
+				glGetProgramInfoLog(shader, 1024, NULL, infoLog);
+				Log::error("PROGRAM_LINKING_ERROR of type: {0} \n {1} \n -- --------------------------------------------------- --", type, infoLog);
 			}
 		}
-
-		// Tessellation Control
-		if (tessCtrlFilepath != nullptr) {
-			source = tessCtrlFilepath;
-			glShaderSource(tessellationCtrlShader, 1, &source, 0);
-			glCompileShader(tessellationCtrlShader);
-
-			glGetShaderiv(tessellationCtrlShader, GL_COMPILE_STATUS, &isCompiled);
-			if (isCompiled == GL_FALSE)
-			{
-				GLint maxLength = 0;
-				glGetShaderiv(tessellationCtrlShader, GL_INFO_LOG_LENGTH, &maxLength);
-
-				std::vector<GLchar> infoLog(maxLength);
-				glGetShaderInfoLog(tessellationCtrlShader, maxLength, &maxLength, &infoLog[0]);
-				Log::error("Shader compile error: {0}", std::string(infoLog.begin(), infoLog.end()));
-
-				glDeleteShader(tessellationCtrlShader);
-				glDeleteShader(fragmentShader);
-				glDeleteShader(vertexShader);
-
-				return;
-			}
-
-			m_OpenGL_ID = glCreateProgram();
-			glAttachShader(m_OpenGL_ID, vertexShader);
-			glAttachShader(m_OpenGL_ID, fragmentShader);
-			glAttachShader(m_OpenGL_ID, tessellationCtrlShader);
-			glLinkProgram(m_OpenGL_ID);
-
-			GLint isLinked = 0;
-			glGetProgramiv(m_OpenGL_ID, GL_LINK_STATUS, (int*)&isLinked);
-			if (isLinked == GL_FALSE)
-			{
-				GLint maxLength = 0;
-				glGetProgramiv(m_OpenGL_ID, GL_INFO_LOG_LENGTH, &maxLength);
-
-				std::vector<GLchar> infoLog(maxLength);
-				glGetProgramInfoLog(m_OpenGL_ID, maxLength, &maxLength, &infoLog[0]);
-				Log::error("Shader linking error: {0}", std::string(infoLog.begin(), infoLog.end()));
-
-				glDeleteProgram(m_OpenGL_ID);
-				glDeleteShader(vertexShader);
-				glDeleteShader(fragmentShader);
-				glDeleteShader(tessellationCtrlShader);
-
-				return;
-			}
-		}
-
-		// Tessellation Evaluation
-		if (tessEvalFilepath != nullptr) {
-			source = tessEvalFilepath;
-			glShaderSource(tessellationEvalShader, 1, &source, 0);
-			glCompileShader(tessellationEvalShader);
-
-			glGetShaderiv(tessellationEvalShader, GL_COMPILE_STATUS, &isCompiled);
-			if (isCompiled == GL_FALSE)
-			{
-				GLint maxLength = 0;
-				glGetShaderiv(tessellationEvalShader, GL_INFO_LOG_LENGTH, &maxLength);
-
-				std::vector<GLchar> infoLog(maxLength);
-				glGetShaderInfoLog(tessellationEvalShader, maxLength, &maxLength, &infoLog[0]);
-				Log::error("Shader compile error: {0}", std::string(infoLog.begin(), infoLog.end()));
-
-				glDeleteShader(tessellationEvalShader);
-				glDeleteShader(fragmentShader);
-				glDeleteShader(vertexShader);
-
-				return;
-			}
-
-			m_OpenGL_ID = glCreateProgram();
-			glAttachShader(m_OpenGL_ID, vertexShader);
-			glAttachShader(m_OpenGL_ID, fragmentShader);
-			glAttachShader(m_OpenGL_ID, tessellationEvalShader);
-			glLinkProgram(m_OpenGL_ID);
-
-			GLint isLinked = 0;
-			glGetProgramiv(m_OpenGL_ID, GL_LINK_STATUS, (int*)&isLinked);
-			if (isLinked == GL_FALSE)
-			{
-				GLint maxLength = 0;
-				glGetProgramiv(m_OpenGL_ID, GL_INFO_LOG_LENGTH, &maxLength);
-
-				std::vector<GLchar> infoLog(maxLength);
-				glGetProgramInfoLog(m_OpenGL_ID, maxLength, &maxLength, &infoLog[0]);
-				Log::error("Shader linking error: {0}", std::string(infoLog.begin(), infoLog.end()));
-
-				glDeleteProgram(m_OpenGL_ID);
-				glDeleteShader(vertexShader);
-				glDeleteShader(fragmentShader);
-				glDeleteShader(tessellationEvalShader);
-
-				return;
-			}
-		}
-
-		glDetachShader(m_OpenGL_ID, vertexShader);
-		glDetachShader(m_OpenGL_ID, fragmentShader);
-		if (geoFilepath != nullptr)
-			glDetachShader(m_OpenGL_ID, geometryShader);
-		if (tessCtrlFilepath != nullptr)
-			glDetachShader(m_OpenGL_ID, tessellationCtrlShader);
-		if (tessEvalFilepath != nullptr)
-			glDetachShader(m_OpenGL_ID, tessellationEvalShader);
 	}
 }

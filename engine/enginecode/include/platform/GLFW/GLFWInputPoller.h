@@ -11,6 +11,7 @@ namespace Engine {
 	public:
 		static bool keyPressed(int32_t key); //!< Whether specified key is called
 		static bool mouseButtonPressed(int32_t button); //!< Whether mouse button is pressed 
+		static bool mouseButtonReleased(int32_t button); //!< Whether mouse button is released 
 		static glm::vec2 getMousePos(); //!< Function to determine mouse position
 		static void setCurrentWindow(GLFWwindow* newWindow) { s_window = newWindow; } //!< Set the current active window
 	protected:

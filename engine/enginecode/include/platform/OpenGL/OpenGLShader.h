@@ -1,6 +1,13 @@
  /** \ file OpenGLShader.h */
 #pragma once
 #include <glm/gtc/type_ptr.hpp>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <array>
+#include <iostream>
+#include "core/log.h"
+#include <glm/gtc/type_ptr.hpp>
 
 namespace Engine 
 {
@@ -12,7 +19,6 @@ namespace Engine
 		OpenGLShader(const char* filepath);
 		~OpenGLShader();
 		uint32_t getID() { return m_OpenGL_ID; }	//!< Get render ID
-		void use();
 
 		void uploadInt(const char* name, int value);
 		void uploadFloat(const char* name, float value);
@@ -23,6 +29,6 @@ namespace Engine
 
 	private:
 		uint32_t m_OpenGL_ID;
-		void compileAndLink(const char* vertexShaderSrc, const char* fragmentShaderSrc, const char* geoFilepath = nullptr, const char* tessCtrlFilepath = nullptr, const char* tessEvalFilepath = nullptr);
+		void checkCompileErrors(GLuint shader, std::string type);
 	};
 }

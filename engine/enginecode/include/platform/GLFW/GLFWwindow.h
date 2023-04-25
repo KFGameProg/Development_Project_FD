@@ -4,6 +4,8 @@
 #include "platform/GLFW/GLFWsystems.h"
 #include "platform/GLFW/GLFW_OpenGL_GC.h"
 #include "platform/window/window.h"
+#include <include\independent\systems\inputPoller.h>
+#include <include\platform\GLFW\GLFWCodes.h>
 
 namespace Engine
 {
