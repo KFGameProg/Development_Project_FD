@@ -31,9 +31,11 @@ namespace Engine {
 		m_cam->attachHandler(m_win, m_handler);
 
 		m_grid = std::make_shared<Grid>();
+		o_sphere = std::make_shared<Sphere>();
 
 		o_cube = new Cube();
 		o_pyramid = new Pyramid();
+		//o_sphere = new Sphere();
 
 		//!< Start Log
 		m_logSystem.reset(new Log);
@@ -186,6 +188,9 @@ namespace Engine {
 		std::shared_ptr<OpenGLShader> BPShader;
 		BPShader.reset(new OpenGLShader("..\\assets\\shaders\\lightingShader.vert", "..\\assets\\shaders\\lightingShader.frag"));
 
+		std::shared_ptr<OpenGLShader> PBRShader;
+		PBRShader.reset(new OpenGLShader("..\\assets\\shaders\\PBRShader.vert", "..\\assets\\shaders\\PBRShader.frag"));
+
 		std::shared_ptr<OpenGLShader> TessShader;
 		TessShader.reset(new OpenGLShader("..\\assets\\shaders\\tessVertShader.vert", "..\\assets\\shaders\\tessFragShader.frag", "..\\assets\\shaders\\Norms.gs", "..\\assets\\shaders\\tessCtrl.tcs", "..\\assets\\shaders\\tessEval.tes"));
 		
@@ -208,13 +213,22 @@ namespace Engine {
 		metalNormalTex.reset(new OpenGLTexture("..\\assets\\textures\\metalPlate\\normal.jpg"));
 		std::shared_ptr<OpenGLTexture> metalSpecularTex;
 		metalSpecularTex.reset(new OpenGLTexture("..\\assets\\textures\\metalPlate\\specular.jpg"));
-		//!< Rusted Metal 
+		//!< Rusted Metal Floor 
 		std::shared_ptr<OpenGLTexture> rustDiffuseTex;
 		rustDiffuseTex.reset(new OpenGLTexture("..\\assets\\textures\\metalRust\\diffuse.jpg"));
 		std::shared_ptr<OpenGLTexture> rustNormalTex;
 		rustNormalTex.reset(new OpenGLTexture("..\\assets\\textures\\metalRust\\normal.jpg"));
 		std::shared_ptr<OpenGLTexture> rustSpecularTex;
 		rustSpecularTex.reset(new OpenGLTexture("..\\assets\\textures\\metalRust\\specular.jpg"));
+		//!< Rusted Iron
+		std::shared_ptr<OpenGLTexture> ironDiffuseTex;
+		ironDiffuseTex.reset(new OpenGLTexture("..\\assets\\textures\\rustedIron\\BaseColour.png"));
+		std::shared_ptr<OpenGLTexture> ironMetallicTex;
+		ironMetallicTex.reset(new OpenGLTexture("..\\assets\\textures\\rustedIron\\Metallic.png"));
+		std::shared_ptr<OpenGLTexture> ironRoughnessTex;
+		ironRoughnessTex.reset(new OpenGLTexture("..\\assets\\textures\\rustedIron\\Roughness.png"));
+		std::shared_ptr<OpenGLTexture> ironNormalTex;
+		ironNormalTex.reset(new OpenGLTexture("..\\assets\\textures\\rustedIron\\Normal.png"));
 		//!< Stylized Stone
 		std::shared_ptr<OpenGLTexture> stoneAmbOccTex;
 		stoneAmbOccTex.reset(new OpenGLTexture("..\\assets\\textures\\stylizedStoneFloor\\ambientOcclusion.jpg"));
@@ -233,7 +247,12 @@ namespace Engine {
 
 #pragma region MATERIALS
 
-
+		glm::vec3 grey = glm::vec3(0.7f);
+		glm::vec3 red = glm::vec3(0.5f, 0.f, 0.f);
+		glm::vec3 green = glm::vec3(0.f, 0.5f, 0.f);
+		glm::vec3 blue = glm::vec3(0.f, 0.f, 0.5f);
+		glm::vec3 purple = glm::vec3(0.5f, 0.f, 1.f);
+		glm::vec3 cyan = glm::vec3(0.1f, 0.70f, 0.75f);
 
 #pragma endregion
 
@@ -249,9 +268,13 @@ namespace Engine {
 		pyramidCol = glm::vec3(0.f, 0.f, 0.f);
 		tint = glm::vec4(0.4f, 0.7f, 0.3f, 1.f);
 		// Light
-		dirLightCol = glm::vec3(1.f);
-		dirLightPos = glm::vec3(0.f, -1.f, 5.f);
-
+		lightCol = glm::vec3(1.f);
+		lightPos = glm::vec3(0.f, -1.f, 0.f);
+		glm::vec3 mlightCol = { glm::vec3(23.47f, 21.31f, 20.79) };
+		// Sphere Placements
+		unsigned int nrRows = 10;
+		unsigned int nrColumns = 10;
+		float spacing = 0.5;
 		//!< Running window operations
 
 		float timestep = 0.f;
@@ -301,7 +324,7 @@ namespace Engine {
 			BPShader->uploadInt("normalMap", 2);
 			glActiveTexture(GL_TEXTURE2);
 			glBindTexture(GL_TEXTURE_2D, stoneNormalTex->getID());
-			
+
 			glBindVertexArray(cubeVAO);
 			glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, cubeIBO);
 
@@ -309,15 +332,17 @@ namespace Engine {
 			BPShader->uploadMat4("view", view);
 			BPShader->uploadMat4("projection", projection);
 			BPShader->uploadFloat3("objCol", cubeCol);
-			BPShader->uploadFloat3("dirLightCol", dirLightCol);
-			BPShader->uploadFloat3("dirLightPos", dirLightPos);
+			BPShader->uploadFloat3("dirLightCol", lightCol);
+			BPShader->uploadFloat3("dirLightPos", lightPos);
 			BPShader->uploadFloat4("tint", tint);
 			BPShader->uploadFloat3("camPos", camPos);
 
 			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 			glDrawElements(GL_TRIANGLES, 3 * 12, GL_UNSIGNED_INT, nullptr);
 
-			// Pyramid
+			glUseProgram(BPShader->getID());
+
+			//Pyramid
 			BPShader->uploadInt("diffuseTexture", 0);
 			glActiveTexture(GL_TEXTURE0);
 			glBindTexture(GL_TEXTURE_2D, metalDiffuseTex->getID());
@@ -336,6 +361,53 @@ namespace Engine {
 
 			glDrawElements(GL_TRIANGLES, 3 * 6, GL_UNSIGNED_INT, nullptr);
 
+			glUseProgram(PBRShader->getID());
+
+			//Spheres
+			PBRShader->uploadInt("albedoMap", 0);
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, ironDiffuseTex->getID());
+			PBRShader->uploadInt("metallicMap", 1);
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_2D, ironMetallicTex->getID());
+			PBRShader->uploadInt("roughnessMap", 2);
+			glActiveTexture(GL_TEXTURE2);
+			glBindTexture(GL_TEXTURE_2D, ironRoughnessTex->getID());
+			PBRShader->uploadInt("normalMap", 4);
+			glActiveTexture(GL_TEXTURE4);
+			glBindTexture(GL_TEXTURE_2D, ironNormalTex->getID());
+
+			PBRShader->uploadMat4("view", view);
+			PBRShader->uploadMat4("projection", projection);
+			PBRShader->uploadFloat4("tint", tint);
+			PBRShader->uploadFloat3("albedo", cyan);
+			PBRShader->uploadFloat("metallic", 0.5f);
+			PBRShader->uploadFloat("roughness", 0.3f);
+			PBRShader->uploadFloat("ambOccul", 0.5f);
+			PBRShader->uploadFloat3("camPos", camPos);
+			PBRShader->uploadFloat3("lightPos", glm::vec3(0.f, 4.f, 0.f));
+			PBRShader->uploadFloat3("lightCol", mlightCol);
+
+			for (int row = 0; row < nrRows; ++row)
+			{
+				for (int col = 0; col < nrColumns; ++col)
+				{
+					model[4] = glm::translate(model[0], glm::vec3(-1.f, 1.f, -6.f));
+					model[4] = glm::translate(model[4], glm::vec3(
+						(float)(col - (nrColumns / 2)) * spacing,
+						(float)(row - (nrRows / 2)) * spacing,
+						0.0f
+					));
+
+					PBRShader->uploadMat4("model", model[4]);
+					
+					glBindVertexArray(sphereVAO);
+					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sphereIBO);
+
+					glDrawElements(GL_TRIANGLE_STRIP, o_sphere->getIndexSize(), GL_UNSIGNED_INT, nullptr);
+				}
+			}
+			
 			m_window->onUpdate(timestep);
 
 			m_timer->reset();
@@ -412,7 +484,6 @@ namespace Engine {
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-
 		//*****************************************************Pyramid Vertex Data*******************************************************
 		glCreateVertexArrays(1, &pyramidVAO);
 		glBindVertexArray(pyramidVAO);
@@ -428,6 +499,43 @@ namespace Engine {
 		glCreateBuffers(1, &pyramidIBO);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, pyramidIBO);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, o_pyramid->getIndexSize(), o_pyramid->getIndices(), GL_STATIC_DRAW);
+
+		//(pos 0 (position), 3 floats, not normalized, 14 float between each data line, start at 0)
+		glEnableVertexAttribArray(0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 14 * sizeof(float), (void*)0); // Position
+		 //(pos 1 (normal), 3 floats, not normalized, 14 float between each data line, start at 3)
+		glEnableVertexAttribArray(1);
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 14 * sizeof(float), (void*)(3 * sizeof(float))); // Normal
+		 //(pos 2 (uv), 2 floats, not normalized, 14 float between each data line, start at 6)
+		glEnableVertexAttribArray(2);
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 14 * sizeof(float), (void*)(6 * sizeof(float))); // UV Coords
+		//(pos 3 (tangent), 3 floats, not normalized, 14 floats between each data line, start at 8)
+		glEnableVertexAttribArray(3);
+		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 14 * sizeof(float), (void*)(8 * sizeof(float))); // Tangent
+		//(pos 4 (bi-tangent), 3 floats, not normalized, 14 floats between each data line, start at 11)
+		glEnableVertexAttribArray(4);
+		glVertexAttribPointer(4, 3, GL_FLOAT, GL_FALSE, 14 * sizeof(float), (void*)(11 * sizeof(float))); // Bi-Tangent
+
+		 //Unbind everyting
+		glBindVertexArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+		//*****************************************************Sphere Vertex Data*******************************************************
+		glCreateVertexArrays(1, &sphereVAO);
+		glBindVertexArray(sphereVAO);
+
+		NormalMapper sphereNormal;
+		sphereNormal.calculateTanAndBitan(o_sphere->getVertexData(), o_sphere->getVertexSize() - 1, o_sphere->getIndexData(), o_sphere->getIndexSize() - 1);
+		std::vector<float> normalizedSphereNormal = sphereNormal.getUpdatedVertexData();
+
+		glCreateBuffers(1, &sphereVBO);
+		glBindBuffer(GL_ARRAY_BUFFER, sphereVBO);
+		glBufferData(GL_ARRAY_BUFFER, normalizedSphereNormal.size() * sizeof(GLfloat), normalizedSphereNormal.data(), GL_STATIC_DRAW);
+
+		glCreateBuffers(1, &sphereIBO);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sphereIBO);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, o_sphere->getIndexSize() * sizeof(GLuint), o_sphere->getIndexData(), GL_STATIC_DRAW);
 
 		//(pos 0 (position), 3 floats, not normalized, 14 float between each data line, start at 0)
 		glEnableVertexAttribArray(0);

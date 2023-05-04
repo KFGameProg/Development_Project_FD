@@ -53,7 +53,8 @@ namespace Engine
 		glBindTexture(GL_TEXTURE_2D, m_OpenGL_ID);
 		if (data)
 		{
-			if (m_channels == 3) glTextureSubImage2D(GL_TEXTURE_2D, 0, xOffset, yOffset, width, height, GL_RGB, GL_UNSIGNED_BYTE, data);
+			if (m_channels == 1) glTextureSubImage2D(GL_TEXTURE_2D, 0, xOffset, yOffset, width, height, GL_RED, GL_UNSIGNED_BYTE, data);
+			else if (m_channels == 3) glTextureSubImage2D(GL_TEXTURE_2D, 0, xOffset, yOffset, width, height, GL_RGB, GL_UNSIGNED_BYTE, data);
 			else if (m_channels == 4) glTextureSubImage2D(GL_TEXTURE_2D, 0, xOffset, yOffset, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data);
 		}
 	}

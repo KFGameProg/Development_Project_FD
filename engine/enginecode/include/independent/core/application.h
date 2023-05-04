@@ -13,6 +13,7 @@
 #include "independent/rendering/normalMapper.h"
 #include "independent/rendering/objects/cube.h"
 #include "independent/rendering/objects/pyramid.h"
+#include "independent/rendering/objects/sphere.h"
 #include "independent/rendering/Utilities/grid.h"
 
 namespace Engine {
@@ -37,6 +38,8 @@ namespace Engine {
 		PerspectiveCamera* m_cam;
 		Cube* o_cube;
 		Pyramid* o_pyramid;
+		//Sphere* o_sphere;
+		std::shared_ptr<Sphere> o_sphere;
 
 	private:
 		static Application* s_instance; //!< Singleton instance of the application
@@ -44,14 +47,14 @@ namespace Engine {
 		int32_t width = SCR_WIDTH;
 		int32_t height = SCR_HEIGHT;
 		// Buffers
-		uint32_t gridVAO, gridVBO, cubeVAO, cubeVBO, cubeIBO, pyramidVAO, pyramidVBO, pyramidIBO;
+		uint32_t gridVAO, gridVBO, cubeVAO, cubeVBO, cubeIBO, pyramidVAO, pyramidVBO, pyramidIBO, sphereVAO, sphereVBO, sphereIBO;
 		// Transform
-		glm::mat4 view, projection, model[4];
+		glm::mat4 view, projection, model[5];
 		// Object
 		glm::vec3 cubeCol, pyramidCol;
 		glm::vec4 tint;
 		// Light
-		glm::vec3 dirLightCol, dirLightPos;
+		glm::vec3 lightCol, lightPos;
 		// Camera
 		glm::vec3 camPos, camFront;
 
@@ -77,7 +80,6 @@ namespace Engine {
 		void run(); //!< Main loop
 
 		void createBuffers();
-		unsigned int loadTexture(const char* path);
 	};
 
 	// To be defined in users code
