@@ -7,6 +7,13 @@ in vec2 uv;
 in mat3 TBN;
 in vec3 camera;
 
+//*******************Toggles***********************
+// Light Caster
+uniform bool tTexture;
+
+// Shader Details
+uniform bool tFragOut;
+
 //************Object Attributes**************
 
 uniform vec4 tint;
@@ -178,11 +185,13 @@ vec3 getTexturedPBR(){
 
 //*************Main Body****************
 void main(){
+vec3 result = vec3(0.f);
     
-    vec3 result = getPBRDirectional(); 
-//    vec3 result = getTexturedPBR(); 
+    //result = getPBRDirectional(); 
+    result = getTexturedPBR(); 
 
     FragColour = vec4(result, 1.0);
-    
-//    if(!gl_FrontFacing) FragColour = vec4(0.0,1.0,0.0,1.0);
+    //FragColour = vec4(norm, 1.0);
+
+    FragColour = vec4(result, 1.0);
 }

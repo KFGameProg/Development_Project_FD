@@ -222,6 +222,12 @@ namespace Engine
 		glUniformMatrix4fv(uniformLocation, 1, GL_FALSE, glm::value_ptr(value));
 	}
 
+	void OpenGLShader::uploadBool(const char* name, bool value)
+	{
+		int32_t uniformLocation = glGetUniformLocation(m_OpenGL_ID, name);
+		glUniform1i(uniformLocation, (int)value);
+	}
+
 	void OpenGLShader::checkCompileErrors(GLuint shader, std::string type)
 	{
 		GLint success;

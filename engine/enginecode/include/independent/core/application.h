@@ -61,6 +61,30 @@ namespace Engine {
 		// Textures
 		unsigned int m_diffTex, m_normMap, m_specMap;	// Metal Sheet
 
+		// Toggles
+		bool ambient = true;
+		bool diffuse = true;
+		bool specular = true;
+		bool texture = true;
+		bool normal = true;
+		bool bpfragOutput = true;
+		bool pbrfragOutput = true;
+
+		bool Ambient() { return ambient; }
+		bool Diffuse() { return diffuse; }
+		bool Specular() { return specular; }
+		bool Texture() { return texture; }
+		bool Normal() { return normal; }
+		bool bpFragOutput() { return bpfragOutput; }
+		bool pbrFragOutput() { return pbrfragOutput; }
+
+		void Ambient(bool x) { ambient = x; }
+		void Diffuse(bool x) { diffuse = x; }
+		void Specular(bool x) { specular = x; }
+		void Texture(bool x) { texture = x; }
+		void Normal(bool x) { normal = x; }
+		void bpFragOutput(bool x) { bpfragOutput = x; }
+		void pbrFragOutput(bool x) { pbrfragOutput = x; }
 
 	public:
 		virtual ~Application(); //!< Deconstructor

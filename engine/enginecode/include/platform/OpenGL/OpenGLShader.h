@@ -26,6 +26,7 @@ namespace Engine
 		void uploadFloat3(const char* name, const glm::vec3& value);
 		void uploadFloat4(const char* name, const glm::vec4& value);
 		void uploadMat4(const char* name, const glm::mat4& value);
+		void uploadBool(const char* name, bool value);
 
 	private:
 		uint32_t m_OpenGL_ID;

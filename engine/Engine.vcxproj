@@ -91,7 +91,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\vendor\IMGui\imgui.h" />
+    <ClInclude Include="..\vendor\IMGui\imconfig.h" />
     <ClInclude Include="enginecode\engine.h" />
     <ClInclude Include="enginecode\include\independent\core\GC.h" />
     <ClInclude Include="enginecode\include\independent\core\application.h" />
@@ -121,7 +121,6 @@
     <ClInclude Include="enginecode\include\independent\rendering\Utilities\grid.h" />
     <ClInclude Include="enginecode\include\independent\systems\camera\camera.h" />
     <ClInclude Include="enginecode\include\independent\systems\camera\perspectiveCamera.h" />
-    <ClInclude Include="enginecode\include\independent\systems\imgui.h" />
     <ClInclude Include="enginecode\include\independent\systems\inputHandler.h" />
     <ClInclude Include="enginecode\include\independent\systems\inputPoller.h" />
     <ClInclude Include="enginecode\include\independent\systems\properties.h" />
@@ -152,7 +151,6 @@
     <ClCompile Include="enginecode\src\independent\rendering\Utilities\grid.cpp" />
     <ClCompile Include="enginecode\src\independent\rendering\Utilities\sphere.cpp" />
     <ClCompile Include="enginecode\src\independent\system\camera\perspectiveCamera.cpp" />
-    <ClCompile Include="enginecode\src\independent\system\imgui.cpp" />
     <ClCompile Include="enginecode\src\independent\system\inputHandler.cpp" />
     <ClCompile Include="enginecode\src\independent\system\inputPoller.cpp" />
     <ClCompile Include="enginecode\src\independent\system\stb_image.cpp" />

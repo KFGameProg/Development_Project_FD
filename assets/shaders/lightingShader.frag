@@ -6,6 +6,16 @@ in vec3 normWS;
 in vec2 uv;
 in mat3 TBN;
 
+//*******************Toggles***********************
+// Light Models
+uniform bool tAmbient;
+uniform bool tDiffuse;
+uniform bool tSpecular;
+
+// Shader Details
+uniform bool tNorm = true;
+uniform bool tFragOut = true;
+
 //************Object Attributes**************
 
 uniform vec3 objCol;
@@ -41,9 +51,9 @@ float specMapCol = texture(specularMap, uv).x;
 //******************************************************Blinn-Phong*********************************************************
 vec3 getBlinnPhong(){
 
-//    N = normalize(normWS);
     N = normalize(normalize(texture(normalMap, uv).rgb * 2.0 - 1.0));
-    
+    //N = normalize(normWS);
+
     rim = clamp(pow((brightness * (1.0 - max(dot(N, -viewDir), 0.0))), sharpness), 0.0, 1.0);
 
     vec3 lightDir = normalize(dirLightPos - posWS);
@@ -63,7 +73,17 @@ vec3 getBlinnPhong(){
 
 // Result
     vec3 result = vec3(0.0);
-    
+
+//    if (tAmbient) {
+//        result += ambient;
+//    }
+//    if (tDiffuse){
+//        result += diffuse;
+//    }
+//    if (tSpecular){
+//        result += specular;
+//    }
+
     result = ambient + diffuse + specular;
 
     return result;
@@ -78,6 +98,7 @@ vec3 result = vec3(0.0);
     result = getBlinnPhong();
 
     FragColour = vec4(result, 1.0);
+    //FragColour = vec4(N, 1.0);
     
 //    if(!gl_FrontFacing) FragColour = vec4(0.0,1.0,0.0,1.0);
 }

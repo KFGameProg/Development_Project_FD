@@ -118,9 +118,33 @@ namespace Engine {
 		e.handle(true);
 		//Log::info("Key Pressed event: key {0}, repeat {1}", e.getKey(), e.getRepeatCount());
 		
+		// Close on Esc press
 		if (e.getKey() == NG_KEY_ESCAPE) {
 			m_running = false;
 		}
+
+		//// Toggle Sets
+		//if(e.getKey() == NG_KEY_1) {
+		//	Ambient(!(Ambient()));
+		//}
+		//if (e.getKey() == NG_KEY_2) {
+		//	Diffuse(!(Diffuse()));
+		//}
+		//if (e.getKey() == NG_KEY_3) {
+		//	Specular(!(Specular()));
+		//}
+		//if (e.getKey() == NG_KEY_BACKSPACE) {
+		//	Normal(!(Normal()));
+		//}
+		//if (e.getKey() == NG_KEY_MINUS) {
+		//	bpFragOutput(!(bpFragOutput()));
+		//}
+		//if (e.getKey() == NG_KEY_ENTER) {
+		//	Texture(!(Texture()));
+		//}
+		//if (e.getKey() == NG_KEY_EQUAL) {
+		//	bpFragOutput(!(pbrFragOutput()));
+		//}
 
 		return e.handled();
 	}
@@ -298,6 +322,15 @@ namespace Engine {
 			m_handler->MouseMove(InputPoller::getMouseX(), InputPoller::getMouseY());
 			m_handler->MouseScroll(m_handler->getMouseScrollX(), m_handler->getMouseScrollY());
 
+			//**************************Toggles******************************
+			/*BPShader->uploadBool("tAmbient", Ambient());
+			BPShader->uploadBool("tDiffuse", Diffuse());
+			BPShader->uploadBool("tSpecular", Specular());
+			BPShader->uploadBool("tNorm", Normal());
+			BPShader->uploadBool("tFragOut", bpFragOutput());
+			PBRShader->uploadBool("tTexture", Texture());
+			PBRShader->uploadBool("tFragOut", pbrFragOutput());*/
+
 			//**************************OpenGL Draw**********************************
 			glUseProgram(TessShader->getID());
 
@@ -309,7 +342,10 @@ namespace Engine {
 			TessShader->uploadMat4("projection", projection);
 			TessShader->uploadFloat3("camPos", camPos);
 
-			glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+			/*glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+			glDrawArrays(GL_PATCHES, 0, m_grid->getSize());*/
+
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 			glDrawArrays(GL_PATCHES, 0, m_grid->getSize());
 
 			glUseProgram(BPShader->getID());
@@ -381,31 +417,37 @@ namespace Engine {
 			PBRShader->uploadMat4("projection", projection);
 			PBRShader->uploadFloat4("tint", tint);
 			PBRShader->uploadFloat3("albedo", cyan);
-			PBRShader->uploadFloat("metallic", 0.5f);
-			PBRShader->uploadFloat("roughness", 0.3f);
 			PBRShader->uploadFloat("ambOccul", 0.5f);
 			PBRShader->uploadFloat3("camPos", camPos);
 			PBRShader->uploadFloat3("lightPos", glm::vec3(0.f, 4.f, 0.f));
 			PBRShader->uploadFloat3("lightCol", mlightCol);
 
-			for (int row = 0; row < nrRows; ++row)
+			float rough = 0.f;
+			float metal = 0.f;
+			for (int col = 0; col < nrColumns; ++col)
 			{
-				for (int col = 0; col < nrColumns; ++col)
+				for (int row = 0; row < nrRows; ++row)
 				{
 					model[4] = glm::translate(model[0], glm::vec3(-1.f, 1.f, -6.f));
 					model[4] = glm::translate(model[4], glm::vec3(
-						(float)(col - (nrColumns / 2)) * spacing,
 						(float)(row - (nrRows / 2)) * spacing,
+						(float)(col - (nrColumns / 2)) * spacing,
 						0.0f
 					));
 
 					PBRShader->uploadMat4("model", model[4]);
+					PBRShader->uploadFloat("roughness", rough);
+					PBRShader->uploadFloat("metallic", metal);
 					
 					glBindVertexArray(sphereVAO);
 					glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, sphereIBO);
 
 					glDrawElements(GL_TRIANGLE_STRIP, o_sphere->getIndexSize(), GL_UNSIGNED_INT, nullptr);
+
+					rough = rough + 0.1f;
 				}
+				rough = 0.f;
+				metal = metal + 0.2f;
 			}
 			
 			m_window->onUpdate(timestep);
